@@ -1,0 +1,54 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  height: 100vh;
+}
+.usermodify-wrapper {
+  margin-top: 1rem;
+  position: relative;
+  width: 50%;
+}
+
+.usermodify-wrapper table th {
+  background-color: rgb(229, 229, 229);
+  /* border-right: 1px solid black; */
+  border-top: 1px solid rgb(186, 186, 186);
+  border-bottom: 1px solid rgb(186, 186, 186);
+  width: 50%;
+  height: 2rem;
+  text-align: right;
+  padding-right: 0.8rem;
+}
+
+.usermodify-wrapper table {
+  border-collapse: collapse;
+  /* border-top: 1px solid black; */
+  /* border-bottom: 1px solid black; */
+  width: 100%;
+}
+
+.usermodify-wrapper table td {
+  /* background-color: rgb(229, 229, 229); */
+  /* border-right: 1px solid black; */
+  border-top: 1px solid rgb(186, 186, 186);
+  border-bottom: 1px solid rgb(186, 186, 186);
+  width: 50%;
+  height: 2rem;
+  text-align: left;
+  padding-left: 0.8rem;
+}
+
+.signup-wrapper {
+  position: relative;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.signup-wrapper .signup-button {
+  position: absolute;
+  right: 0;
+}

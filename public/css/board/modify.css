@@ -1,0 +1,21 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  height: 100vh;
+}
+.form-wrapper {
+  margin-top: 3rem;
+  position: relative;
+}
+.form-title input {
+  /* padding: 0; */
+  width: 100%;
+}
+.form-submit {
+  position: absolute;
+  right: 0%;
+}

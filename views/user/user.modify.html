@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>회원 정보 수정</title>
+    <link rel="stylesheet" href="../../public/css/user/user.modify.css" />
+  </head>
+  <body>
+    <div class="usermodify-wrapper">
+      <h1>회원 정보 수정</h1>
+      <div class="usermodify-table">
+        <form method="POST" action="/users/modify">
+          <table>
+            <tbody>
+              <tr>
+                <th><label for="e-mail">이메일</label></th>
+                <td>
+                  <input
+                    type="email"
+                    id="e-mail"
+                    name="e-mail"
+                    required
+                    value="{{email}}"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th><label for="password">패스워드</label></th>
+                <td>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    required
+                    value="{{password}}"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th><label for="username">이름</label></th>
+                <td>
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    required
+                    value="{{username}}"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th><label for="gender">성별</label></th>
+                <td>
+                  <select id="gender" name="gender" required>
+                    <option value="male">남성</option>
+                    <option value="female">여성</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <th><label for="birth">생년월일</label></th>
+                <td>
+                  <input
+                    type="date"
+                    id="birth"
+                    name="birth"
+                    value="{{birth}}"
+                    required
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="signup-wrapper">
+            <a href="#">홈으로</a>
+            <input class="signup-button" type="submit" value="회원 정보 수정" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
