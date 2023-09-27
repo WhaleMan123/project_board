@@ -1,0 +1,22 @@
+{
+  "name": "project_board",
+  "version": "1.0.0",
+  "description": "```js\r /project/\r   /lib/\r     jwt.js\r   /public/\r     /imgs/\r     /css/\r     /js/\r   /src/\r     /auth/\r       auth.middleware.js\r     /board/\r       board.route.js\r       board.controller.js\r       board.service.js\r       board.repository.js\r     /user/\r       user.route.js\r       user.controller.js\r       user.service.js\r       user.repository.js\r     index.js\r   /views/\r     /board/\r       list.html\r       view.html\r       write.html\r       modify.html\r       search.html\r     /user/\r       user.info.html\r       user.modify.html\r       user.regist.html\r     index.html\r     login.html\r   pool.js\r   server.js\r   README.md\r   (/node_modules/)\r   (package-lock.json)\r   (package.json)\r   (.gitignore)\r ```",
+  "main": "pool.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "nunjucks": "^3.2.4"
+  }
+}
