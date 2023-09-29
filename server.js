@@ -17,6 +17,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(router);
 
-app.listen(3000, () => {
+app.listen(7700, () => {
     console.log("Server Start");
 });
