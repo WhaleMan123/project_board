@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>자유게시판 - 경일판</title>
+        <title>공지사항</title>
     </head>
     <body>
         <table>
@@ -17,7 +17,7 @@
             {% for data in list %}
             <tr>
                 <td>{{data.id}}</td>
-                <td><a href="/boards/view?id={{data.id}}">{{data.title}}</a></td>
+                <td><a href="/boards/announcement/view?id={{data.id}}">{{data.title}}</a></td>
                 <td>{{data.writer}}</td>
                 <td>{{data.formattedDate}}</td>
                 <td>{{data.hit}}</td>
@@ -25,9 +25,9 @@
             {% endfor %}
         </table>
         <a href="/">홈으로</a>
-        <a href="/boards/write">글 작성</a>
+        <a href="/boards/announcement/write">글 작성</a>
         <a href="/users/login">로그인</a>
-        <form action="/serach" method="GET">
+        <form action="/search" method="GET">
             <input type="text" name="query" placeholder="검색어를 입력하세요..." />
             <input type="submit" value="검색" />
         </form>

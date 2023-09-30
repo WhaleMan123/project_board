@@ -11,10 +11,10 @@
         <p>글쓴이: {{writer}}</p>
         <p>내용: {{content}}</p>
         <p>조회 수 : {{hit}}</p>
-        <a href="/boards/list">글 목록</a>
-        <a href="/boards/modify?id={{id}}">글 수정</a>
+        <a href="/boards/announcement/list">공지사항 글 목록</a>
+        <a href="/boards/announcement/modify?id={{id}}">글 수정</a>
         <a href="/">홈으로</a>
-        <form method="post" action="/boards/delete?id={{id}}">
+        <form method="post" action="/boards/announcement/delete?id={{id}}">
             <button>글 삭제</button>
         </form>
     </body>
