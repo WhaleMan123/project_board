@@ -14,9 +14,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(router);
 
-app.get("/", (req, res) => {
-  res.send("hi");
-});
+// app.get("/", (req, res) => {
+//   res.send("hi");
+// });
 
 // app.use(router);
 

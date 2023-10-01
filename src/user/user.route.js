@@ -1,12 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const userCotroller = require("./user.controller");
 
-router.get("/login", (req, res) => {
-  res.render("login.html");
-});
-
-router.post("/login", (req, res) => {
-  res.redirect("/");
-});
+router.get("/login", userCotroller.getLogin);
+router.post("/login", userCotroller.postLogin);
 
 module.exports = router;
