@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const nunjucks = require("nunjucks");
 const router = require("./src/index");
+const pool = require("./pool");
 // const router = require("./src/index");
 
 app.set("view engine", "html");
@@ -20,6 +21,13 @@ app.use(router);
 
 // app.use(router);
 
-app.listen(3000, () => {
-  console.log("Server Start");
+app.listen(3000, async () => {
+  console.log(`server start`);
+  try {
+    const connection = await pool.getConnection();
+    console.log(`Connected to the database!`);
+    connection.release();
+  } catch (e) {
+    console.log("DB Connection ERR", e.message);
+  }
 });
