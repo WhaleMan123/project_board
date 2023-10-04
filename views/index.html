@@ -8,6 +8,11 @@
   <body>
     <a href="/boards/announcement">공지사항</a>
     <a href="/boards/general-discussion">자유 게시판</a>
-    <a href="/users/login">로그인</a>
+    <div>
+      {% if token %} 로그인 됐음 <a href="users/logout">로그아웃</a>
+      {% else %}
+      <a href="/users/login">로그인</a>
+      {% endif %}
+    </div>
   </body>
 </html>

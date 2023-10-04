@@ -4,18 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>로그인 페이지</title>
+    <link rel="stylesheet" href="/css/login.css" />
   </head>
   <body>
     <h2>로그인</h2>
     <form action="/users/login" method="post">
       <ul>
         <li>
-          <input type="text" name="user_id" />
+          <input type="text" name="user_email" />
         </li>
         <li>
-          <input type="password" name="user_pw" />
+          <input type="password" name="user_password" />
         </li>
       </ul>
+      {% if errorMessage %}
+      <p class="login-fail">{{ errorMessage }}</p>
+      {% endif %}
       <button type="submit">로그인 하기</button>
       <a href="/">메인 페이지로</a>
     </form>

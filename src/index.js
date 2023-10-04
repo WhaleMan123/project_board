@@ -4,7 +4,9 @@ const boardRouter = require("./board/board.route");
 const userRouter = require("./user/user.route");
 
 router.get("/", (req, res) => {
-  res.render("index.html");
+  // console.log(req.headers.cookie);
+  // console.log(req.cookies);
+  res.render("index.html", { token: req.cookies.token });
   // res.render("index.html", { user: req.user });
 });
 

@@ -1,12 +1,22 @@
 const userRepository = require("./user.repository");
+const JWT = require("../../lib/jwt");
+const jwt = new JWT();
 
-exports.postLogin = async () => {
+exports.postLogin = async (user_email, user_password) => {
   try {
     const result = await userRepository.findOneByUserInfo(
-      "web7722@gmail.com",
-      "1234"
+      user_email,
+      user_password
     );
-    return result;
+    if (!result) {
+      return { isLogin: false, data: null };
+    }
+    const token = jwt.sign({
+      email: result.email,
+      pw: result.password,
+    });
+    console.log(result);
+    return { isLogin: true, data: token };
   } catch (error) {
     throw new Error("Service Error " + error.message);
   }
