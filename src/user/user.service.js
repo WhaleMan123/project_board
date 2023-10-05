@@ -20,6 +20,16 @@ exports.postLogin = async (user_email, user_password) => {
   }
 };
 
+exports.postRegist = async (regist_data) => {
+  try {
+    console.log("postRegist", regist_data);
+
+    userRepository.registNewUser(regist_data);
+  } catch (error) {
+    throw new Error("Service postRegist Error" + error.message);
+  }
+};
+
 exports.findOneByUserEmail = async (user_email) => {
   try {
     const result = await userRepository.findOne("email", user_email);

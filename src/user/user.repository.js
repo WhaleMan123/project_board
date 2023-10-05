@@ -23,3 +23,22 @@ exports.findOne = async (field, value) => {
     throw new Error("Repository findOne Error" + error.message);
   }
 };
+
+exports.registNewUser = async (regist_data) => {
+  try {
+    const { email, password, username, gender, birth } = regist_data;
+    const sql = `INSERT INTO users (email, password, username, birth, gender) VALUES (?, ?, ?, ?, ?)`;
+    const result = await pool.query(sql, [
+      email,
+      password,
+      username,
+      birth,
+      gender,
+    ]);
+    console.log(
+      `[email : ${email}, username : ${username}] 유저가 회원가입에 성공.`
+    );
+  } catch (error) {
+    throw new Error("Repository registNewUser Error " + error.message);
+  }
+};

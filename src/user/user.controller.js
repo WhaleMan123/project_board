@@ -1,3 +1,4 @@
+const moment = require("moment");
 const userService = require("./user.service");
 
 exports.getLogin = (req, res) => {
@@ -9,9 +10,33 @@ exports.getLogout = (req, res) => {
   res.redirect("/");
 };
 
+exports.getRegist = (req, res) => {
+  res.clearCookie("token");
+  res.render("user/user.regist.html");
+};
+
 exports.getInfo = async (req, res) => {
-  console.log("getInfo : ", req.user);
-  res.render("user/user.info.html", { user: req.user });
+  try {
+    // console.log("getInfo : ", req.user);
+    const user = req.user;
+    user.birth = moment(user.birth).format("YYYY-MM-DD");
+    user.registered_at = moment(user.registered_at).format("YYYY-MM-DD");
+    res.render("user/user.info.html", { user: user });
+  } catch (error) {
+    console.log("Controller getInfo Error", error.message);
+  }
+};
+
+exports.getModify = async (req, res) => {
+  try {
+    console.log(req.user);
+    const user = req.user;
+    user.birth = moment(user.birth).format("YYYY-MM-DD");
+    user.registered_at = moment(user.registered_at).format("YYYY-MM-DD");
+    res.render("user/user.modify.html", { user: user });
+  } catch (error) {
+    console.log("Controller getModify Error", error.message);
+  }
 };
 
 exports.postLogin = async (req, res, next) => {
@@ -39,6 +64,23 @@ exports.postLogin = async (req, res, next) => {
     }
   } catch (error) {
     // throw new Error("Controller Error " + error.message);
-    next();
+    next(error);
+  }
+};
+
+exports.postRegist = async (req, res) => {
+  try {
+    // console.log(req.body);
+    const regist_data = req.body;
+    userService.postRegist(regist_data);
+
+    // setTimeout(() => {
+    //   res.redirect("/users/login");
+    // }, 2500);
+    res.render("user/user.regist.html", {
+      SuccessMessage: `${regist_data.username}님 반갑습니다.회원가입에 성공하였습니다. 잠시 후 로그인 페이지로 이동합니다.`,
+    });
+  } catch (error) {
+    console.log("Controller postRegist Error", error.message);
   }
 };

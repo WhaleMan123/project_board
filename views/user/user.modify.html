@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>회원 정보 수정</title>
-    <link rel="stylesheet" href="../../public/css/user/user.modify.css" />
+    <link rel="stylesheet" href="/css/user/user.modify.css" />
   </head>
   <body>
     <div class="usermodify-wrapper">
@@ -21,7 +21,7 @@
                     id="e-mail"
                     name="e-mail"
                     required
-                    value="{{email}}"
+                    value="{{user.email}}"
                   />
                 </td>
               </tr>
@@ -33,7 +33,7 @@
                     id="password"
                     name="password"
                     required
-                    value="{{password}}"
+                    value="{{user.password}}"
                   />
                 </td>
               </tr>
@@ -45,16 +45,18 @@
                     id="username"
                     name="username"
                     required
-                    value="{{username}}"
+                    value="{{user.username}}"
                   />
                 </td>
               </tr>
               <tr>
                 <th><label for="gender">성별</label></th>
                 <td>
+                  <!-- 성별 부분의 nunjucks 문법 때문에 prettier에서 경고가 뜨지만,  -->
+                  <!-- 실제 코드 상에는 문제가 없다. 무시해도 된다. -->
                   <select id="gender" name="gender" required>
-                    <option value="male">남성</option>
-                    <option value="female">여성</option>
+                    <option value="male" {% if user.gender == 'male' %}selected{% endif %}>남성</option>
+                    <option value="female" {% if user.gender == 'female' %}selected{% endif %}>여성</option>
                   </select>
                 </td>
               </tr>
@@ -65,7 +67,7 @@
                     type="date"
                     id="birth"
                     name="birth"
-                    value="{{birth}}"
+                    value="{{user.birth}}"
                     required
                   />
                 </td>
