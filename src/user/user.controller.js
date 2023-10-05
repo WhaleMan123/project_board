@@ -9,6 +9,11 @@ exports.getLogout = (req, res) => {
   res.redirect("/");
 };
 
+exports.getInfo = async (req, res) => {
+  console.log("getInfo : ", req.user);
+  res.render("user/user.info.html", { user: req.user });
+};
+
 exports.postLogin = async (req, res, next) => {
   try {
     const { user_email, user_password } = req.body;
@@ -22,7 +27,7 @@ exports.postLogin = async (req, res, next) => {
       // );
       // 위의 내용은 res.cookie는 이것과 동일한 의미
       res.cookie("token", result.data, {
-        maxAge: 10000,
+        maxAge: 60 * 60 * 1000,
         domain: "localhost",
         path: "/",
       });

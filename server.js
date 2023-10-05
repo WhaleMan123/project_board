@@ -5,7 +5,6 @@ const router = require("./src/index");
 const pool = require("./pool");
 const cookieParser = require("cookie-parser");
 const middleware = require("./src/auth/auth.middleware");
-// const router = require("./src/index");
 
 app.set("view engine", "html");
 nunjucks.configure("views", {
@@ -19,6 +18,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(middleware.auth);
 
 app.use(router);
+app.use((err, req, res, next) => {
+  console.log(err);
+  console.error(err.stack);
+  res.status(500).send(err.message);
+});
 
 // app.get("/", (req, res) => {
 //   res.send("hi");
@@ -32,7 +36,7 @@ app.listen(3000, async () => {
     const connection = await pool.getConnection();
     console.log(`Connected to the database!`);
     connection.release();
-  } catch (e) {
-    console.log("DB Connection ERR", e.message);
+  } catch (error) {
+    console.log("DB Connection Error", error.message);
   }
 });

@@ -13,11 +13,18 @@ exports.postLogin = async (user_email, user_password) => {
     }
     const token = jwt.sign({
       email: result.email,
-      pw: result.password,
     });
-    console.log(result);
     return { isLogin: true, data: token };
   } catch (error) {
     throw new Error("Service Error " + error.message);
+  }
+};
+
+exports.findOneByUserEmail = async (user_email) => {
+  try {
+    const result = await userRepository.findOne("email", user_email);
+    return result;
+  } catch (error) {
+    throw new Error("Service findOneByUser Error" + error.message);
   }
 };
