@@ -43,3 +43,5 @@
   (package.json)
   (.gitignore)
 ```
+
+INSERT INTO freeboards(title, content, writer) values("제목1", "내용1", "작가1");

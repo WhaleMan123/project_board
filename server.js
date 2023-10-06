@@ -24,12 +24,6 @@ app.use((err, req, res, next) => {
   res.status(500).send(err.message);
 });
 
-// app.get("/", (req, res) => {
-//   res.send("hi");
-// });
-
-// app.use(router);
-
 app.listen(3000, async () => {
   console.log(`server start`);
   try {
