@@ -2,21 +2,35 @@ const express = require("express");
 const app = express();
 const nunjucks = require("nunjucks");
 const router = require("./src/index");
+const pool = require("./pool");
+const cookieParser = require("cookie-parser");
+const middleware = require("./src/auth/auth.middleware");
 
 app.set("view engine", "html");
 nunjucks.configure("views", {
-    express: app,
+  express: app,
+  autoescape: true,
 });
 
 app.use(express.static("public"));
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
-
-// app.get("/", (req, res) => {
-//   res.send("hi");
-// });
+app.use(middleware.auth);
 
 app.use(router);
+app.use((err, req, res, next) => {
+  console.log(err);
+  console.error(err.stack);
+  res.status(500).send(err.message);
+});
 
-app.listen(7700, () => {
-    console.log("Server Start");
+app.listen(3000, async () => {
+  console.log(`server start`);
+  try {
+    const connection = await pool.getConnection();
+    console.log(`Connected to the database!`);
+    connection.release();
+  } catch (error) {
+    console.log("DB Connection Error", error.message);
+  }
 });

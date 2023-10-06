@@ -41,3 +41,17 @@ body {
   text-align: left;
   padding-left: 0.8rem;
 }
+
+.delete-success {
+  display: none;
+  border-color: #eed3d7;
+  color: #212020;
+  background-color: #8fffa0;
+  margin: 1em 0;
+  padding: 0 1em;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  line-height: 1.4;
+  font-size: 13px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}

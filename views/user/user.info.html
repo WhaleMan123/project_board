@@ -4,48 +4,68 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>유저 정보</title>
-    <link rel="stylesheet" href="../../public/css/user/user.info.css" />
+    <link rel="stylesheet" href="/css/user/user.info.css" />
   </head>
   <body>
     <div class="userinfo-wrapper">
-      <h1>유저 정보</h1>
+      <h1>회원 정보</h1>
       <div class="userinfo-table">
         <table>
           <tbody>
             <tr>
               <th>UID</th>
-              <td>{{id}}</td>
+              <td>{{user.id}}</td>
             </tr>
             <tr>
               <th>E-mail</th>
-              <td>{{e-mail}}</td>
+              <td>{{user.email}}</td>
             </tr>
             <tr>
               <th>유저 이름</th>
-              <td>{{username}}</td>
+              <td>{{user.username}}</td>
             </tr>
             <tr>
               <th>생년월일</th>
-              <td>{{birth}}</td>
+              <td>{{user.birth}}</td>
             </tr>
             <tr>
               <th>성별</th>
-              <td>{{gender}}</td>
+              <td>{{user.gender}}</td>
             </tr>
             <tr>
               <th>레벨</th>
-              <td>{{level}}</td>
+              <td>{{user.level}}</td>
             </tr>
             <tr>
               <th>가입일</th>
-              <td>{{registered_at}}</td>
+              <td>{{user.registered_at}}</td>
             </tr>
           </tbody>
         </table>
-        <a href="/">홈으로</a>
-        <a href="/users/login">로그인 화면으로</a>
+
         <a href="/users/modify"><button>회원 정보 수정</button></a>
+        <button id="deleteButton">회원 탈퇴</button>
       </div>
+      <a href="/">홈으로</a>
+      <a href="/users/login">로그인 화면으로</a>
+      <p class="delete-success">
+        회원 탈퇴가 완료됐습니다. 잠시 후 메인 페이지로 이동합니다.
+      </p>
     </div>
   </body>
+  <script>
+    document
+      .getElementById("deleteButton")
+      .addEventListener("click", function () {
+        const isConfirmed = window.confirm(
+          "정말로 회원 탈퇴를 하시겠습니까? 탈퇴 후 회원 정보는 저장되지 않습니다."
+        );
+        if (isConfirmed) {
+          setTimeout(() => {
+            window.location.href = "/users/delete";
+          }, 3500);
+          document.querySelector(".delete-success").style.display = "block";
+        }
+      });
+  </script>
 </html>
