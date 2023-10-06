@@ -1,21 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{{title}}</title>
-    </head>
-    <body>
-        <p>제목: {{title}}</p>
-        <p>생성날짜: {{formattedDate}}</p>
-        <p>글쓴이: {{writer}}</p>
-        <p>내용: {{content}}</p>
-        <p>조회 수 : {{hit}}</p>
-        <a href="/boards/freeboard/list">자유게시판 글 목록</a>
-        <a href="/boards/freeboard/modify?id={{id}}">글 수정</a>
-        <a href="/">홈으로</a>
-        <form method="post" action="/boards/freeboard/delete?id={{id}}">
-            <button>글 삭제</button>
-        </form>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{title}}</title>
+  </head>
+  <body>
+    <p>제목: {{title}}</p>
+    <p>생성날짜: {{formattedDate}}</p>
+    <p>글쓴이: {{writer}}</p>
+    <p>내용: {{content}}</p>
+    <p>조회 수 : {{hit}}</p>
+    <a href="/boards/freeboard/list">자유게시판 글 목록</a>
+    <a href="/boards/freeboard/modify?id={{id}}">글 수정</a>
+    <a href="/">홈으로</a>
+    <form
+      id="deleteForm"
+      method="post"
+      action="/boards/freeboard/delete?id={{id}}"
+    >
+      <button type="button" id="deleteButton">글 삭제</button>
+    </form>
+  </body>
+  <script>
+    document.getElementById("deleteButton").addEventListener("click", () => {
+      const isConfirmed = window.confirm(
+        "정말로 이 글을 삭제하시겠습니까? 삭제된 게시글은 복구되지 않습니다."
+      );
+      if (isConfirmed) {
+        document.getElementById("deleteForm").submit();
+      }
+    });
+  </script>
 </html>

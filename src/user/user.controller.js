@@ -43,6 +43,7 @@ exports.getDelete = async (req, res) => {
   try {
     const userEmail = req.user.email;
     await userService.getDelete(userEmail);
+    res.clearCookie("token");
     res.redirect("/");
   } catch (error) {
     console.log("Controller getDelete Error : ", error.message);
