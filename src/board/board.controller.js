@@ -105,7 +105,7 @@ exports.announcementPostWrite = async (req, res, next) => {
 
 exports.freeboardPostModify = async (req, res, next) => {
     try {
-        const id = req.query.id;
+        const id = req.body.id;
         await freeBoardService.modify(id, req.body);
         res.redirect(`/boards/freeboard/view?id=${id}`);
     } catch (e) {
@@ -115,7 +115,7 @@ exports.freeboardPostModify = async (req, res, next) => {
 
 exports.announcementPostModify = async (req, res, next) => {
     try {
-        const id = req.query.id;
+        const id = req.body.id;
         await announcementBoardService.modify(id, req.body);
         res.redirect(`/boards/announcement/view?id=${id}`);
     } catch (e) {
