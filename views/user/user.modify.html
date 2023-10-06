@@ -14,15 +14,18 @@
           <table>
             <tbody>
               <tr>
-                <th><label for="e-mail">이메일</label></th>
+                <th><label for="email">이메일</label></th>
                 <td>
-                  <input
+                  <!-- <input
                     type="email"
-                    id="e-mail"
-                    name="e-mail"
+                    id="email"
+                    name="email"
                     required
                     value="{{user.email}}"
-                  />
+                  /> -->
+                  <!-- 기성 사이트들 참고해본 결과,
+                    emial변경은 불가능하게 설계하였다. -->
+                  {{user.email}}
                 </td>
               </tr>
               <tr>
@@ -33,7 +36,6 @@
                     id="password"
                     name="password"
                     required
-                    value="{{user.password}}"
                   />
                 </td>
               </tr>
@@ -80,6 +82,14 @@
           </div>
         </form>
       </div>
+      {% if SuccessMessage %}
+      <script>
+        setTimeout(()=>{
+          window.location.href = "/";
+        }, 3500)
+      </script>
+      <p class="modify-success">{{SuccessMessage}}</p>
+      {% endif %}
     </div>
   </body>
 </html>

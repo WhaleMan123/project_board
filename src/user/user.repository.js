@@ -42,3 +42,23 @@ exports.registNewUser = async (regist_data) => {
     throw new Error("Repository registNewUser Error " + error.message);
   }
 };
+
+exports.modifyUserInfo = async (userEmail, modifyData) => {
+  try {
+    const { password, username, gender, birth } = modifyData;
+    const sql = `UPDATE users SET password=?, username=?, gender=?, birth=? WHERE email=?`;
+    await pool.query(sql, [password, username, gender, birth, userEmail]);
+  } catch (error) {
+    throw new Error("Repository modiftUserInfo Error : " + error.message);
+  }
+};
+
+exports.deleteUserInfo = async (userEmail) => {
+  try {
+    const sql = `DELETE FROM users WHERE email=?`;
+    await pool.query(sql, [userEmail]);
+    console.log(`[email : ${userEmail}] 유저가 회원탈퇴 성공.`);
+  } catch (error) {
+    throw new Error("Repository deleteUserInfo Error : " + error.message);
+  }
+};
