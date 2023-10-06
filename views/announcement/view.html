@@ -12,8 +12,11 @@
     <p>내용: {{content}}</p>
     <p>조회 수 : {{hit}}</p>
     <a href="/boards/announcement/list">공지사항 글 목록</a>
+    {% if level >= 2 %}
     <a href="/boards/announcement/modify?id={{id}}">글 수정</a>
+    {% endif %}
     <a href="/">홈으로</a>
+    {% if level >= 2 %}
     <form
       id="deleteForm"
       method="post"
@@ -21,6 +24,7 @@
     >
       <button type="button" id="deleteButton">글 삭제</button>
     </form>
+    {% endif %}
   </body>
   <script>
     document.getElementById("deleteButton").addEventListener("click", () => {

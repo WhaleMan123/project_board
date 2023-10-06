@@ -6,12 +6,8 @@ exports.auth = async (req, res, next) => {
   try {
     const { token } = req.cookies;
     if (!token) return next();
-
     const payload = jwt.verify(token, "web7722");
-    // console.log("payload : ", payload);
-
     const user = await userService.findOneByUserEmail(payload.email);
-    // console.log("user : ", user);
     req.user = user;
     // 위와 같이 보통 로그인 한 사용자의 정보를 담을 때 req.user에다가 담는다.
     next();

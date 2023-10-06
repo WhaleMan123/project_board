@@ -14,8 +14,12 @@ exports.freeboardGetWrite = (req, res) => {
 };
 
 exports.announcementGetWrite = (req, res) => {
-  const { username } = req.user;
-  res.render("announcement/write.html", { username });
+  const { username, level } = req.user;
+  if (level < 2) {
+    return res.status(403).send("권한이 없습니다.");
+  } else {
+    res.render("announcement/write.html", { username });
+  }
 };
 
 exports.freeboardGetList = async (req, res, next) => {
@@ -35,16 +39,24 @@ exports.freeboardGetList = async (req, res, next) => {
 
 exports.announcementGetList = async (req, res, next) => {
   try {
+    const level = req.user.level;
     const result = await announcementBoardService.getFindAll();
     const formattedResults = result.map((item) => {
       item.formattedDate = date.formatDate(item.created_at);
       return item;
     });
-
-    res.render("announcement/list.html", { list: formattedResults });
-    // console.log(result);
-  } catch (e) {
-    next(e);
+    // console.log("announcementGetList  ", formattedResults);
+    // console.log("announcementGetList object  ", {
+    //   list: formattedResults,
+    //   level: level,
+    // });
+    res.render("announcement/list.html", {
+      list: formattedResults,
+      level: level,
+    });
+  } catch (error) {
+    console.log("Controller announcementGetList ERROR : ", error.message);
+    next(error);
   }
 };
 
@@ -65,12 +77,13 @@ exports.announcementGetView = async (req, res, next) => {
   try {
     // console.log("ID 값:", req.query.id);
     const [result] = await announcementBoardService.getFindOne(req.query.id);
+    const level = req.user.level;
     result.formattedDate = date.formatDate(result.created_at);
-
+    result.level = level;
     res.render("announcement/view.html", result);
-    // console.log(result);
-  } catch (e) {
-    next(e);
+  } catch (error) {
+    console.log("Controller announcementGetView ERROR : ", error.message);
+    next(error);
   }
 };
 
@@ -84,11 +97,24 @@ exports.freeboardGetModify = async (req, res, next) => {
 };
 
 exports.announcementGetModify = async (req, res, next) => {
-  const [result] =
-    await announcementBoardService.getFindOneWithoutIncreamentHit(req.query.id);
-  result.formattedDate = date.formatDate(result.created_at);
-
-  res.render("announcement/modify.html", result);
+  try {
+    const [result] =
+      await announcementBoardService.getFindOneWithoutIncreamentHit(
+        req.query.id
+      );
+    result.formattedDate = date.formatDate(result.created_at);
+    const level = req.user.level;
+    //   console.log("Controller announcementGetModify : ", result);
+    //   console.log("Controller announcementGetModify level : ", level);
+    if (level < 2) {
+      return res.status(403).send("권한이 없습니다.");
+    } else {
+      res.render("announcement/modify.html", result);
+    }
+  } catch (error) {
+    console.log("Controller announcementGetModify ERROR : ", error.message);
+    next(error);
+  }
 };
 
 exports.freeboardPostWrite = async (req, res, next) => {
@@ -104,10 +130,15 @@ exports.freeboardPostWrite = async (req, res, next) => {
 exports.announcementPostWrite = async (req, res, next) => {
   try {
     const result = await announcementBoardService.write(req.body);
-    // console.log("게시글 작성 후 반환된 결과:", result);
-    res.redirect(`/boards/announcement/view?id=${result.id}`);
-  } catch (e) {
-    next(e);
+    const level = req.user.level;
+    if (level < 2) {
+      return res.status(403).send("권한이 없습니다.");
+    } else {
+      res.redirect(`/boards/announcement/view?id=${result.id}`);
+    }
+  } catch (error) {
+    console.log("Controller announcementPostWrite ERROR : ", error.message);
+    next(error);
   }
 };
 
@@ -124,10 +155,16 @@ exports.freeboardPostModify = async (req, res, next) => {
 exports.announcementPostModify = async (req, res, next) => {
   try {
     const id = req.body.id;
-    await announcementBoardService.modify(id, req.body);
-    res.redirect(`/boards/announcement/view?id=${id}`);
-  } catch (e) {
-    next(e);
+    const level = req.user.level;
+    if (level < 2) {
+      return res.status(403).send("권한이 없습니다.");
+    } else {
+      await announcementBoardService.modify(id, req.body);
+      res.redirect(`/boards/announcement/view?id=${id}`);
+    }
+  } catch (error) {
+    console.log("Controller announcementPostModify ERROR : ", error.message);
+    next(error);
   }
 };
 
@@ -144,8 +181,13 @@ exports.freeboardPostDelete = async (req, res, next) => {
 exports.announcementPostDelete = async (req, res, next) => {
   try {
     const id = req.query.id;
-    await announcementBoardService.delete(id);
-    res.redirect("/boards/announcement/list");
+    const level = req.user.level;
+    if (level < 2) {
+      return res.status(403).send("권한이 없습니다.");
+    } else {
+      await announcementBoardService.delete(id);
+      res.redirect("/boards/announcement/list");
+    }
   } catch (e) {
     console.log("boardController announcementPostDelete Error : ", e.message);
     next(e);
