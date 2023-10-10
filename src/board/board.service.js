@@ -1,135 +1,141 @@
 // const boardRepository = require("./board.repository");
 
-const { FreeBoardRepository, AnnouncementBoardRepository } = require("./board.repository");
+const {
+  FreeBoardRepository,
+  AnnouncementBoardRepository,
+} = require("./board.repository");
 
 const freeboardRepo = new FreeBoardRepository();
 const announcementboardRepo = new AnnouncementBoardRepository();
 
 class FreeBoardService {
-    constructor() {
-        this.repository = new FreeBoardRepository();
-    }
+  constructor() {
+    this.repository = new FreeBoardRepository();
+  }
 
-    async getFindAll() {
-        try {
-            const result = await this.repository.findAll();
-            return result;
-        } catch (e) {
-            throw new Error(`Service 오류 발생 ${e.message}`);
-        }
+  async getFindAll() {
+    try {
+      const result = await this.repository.findAll();
+      result.sort((a, b) => b.id - a.id);
+      return result;
+    } catch (e) {
+      throw new Error(`Service 오류 발생 ${e.message}`);
     }
+  }
 
-    async getFindOne(id) {
-        try {
-            await this.repository.incrementHit(id);
-            const result = await this.repository.findOne(id);
-            return result;
-        } catch (e) {
-            throw new Error(`Service 오류 발생 ${e.message}`);
-        }
+  async getFindOne(id) {
+    try {
+      await this.repository.incrementHit(id);
+      const result = await this.repository.findOne(id);
+      return result;
+    } catch (e) {
+      throw new Error(`Service 오류 발생 ${e.message}`);
     }
+  }
 
-    async getFindOneWithoutIncreamentHit(id) {
-        try {
-            const result = await this.repository.findOne(id);
-            return result;
-        } catch (e) {
-            throw new Error(`Service 오류 발생 ${e.message}`);
-        }
+  async getFindOneWithoutIncreamentHit(id) {
+    try {
+      const result = await this.repository.findOne(id);
+      return result;
+    } catch (e) {
+      throw new Error(`Service 오류 발생 ${e.message}`);
     }
+  }
 
-    async write(data) {
-        try {
-            const result = await this.repository.write(data);
-            return result;
-        } catch (e) {
-            throw new Error(`Service 오류 발생 ${e.message}`);
-        }
+  async write(data) {
+    try {
+      const result = await this.repository.write(data);
+      return result;
+    } catch (e) {
+      throw new Error(`Service 오류 발생 ${e.message}`);
     }
+  }
 
-    async modify(id, data) {
-        try {
-            const result = await this.repository.modify(id, data);
-            return result;
-        } catch (e) {
-            throw new Error(`Service 오류 발생 ${e.message}`);
-        }
+  async modify(id, data) {
+    try {
+      const result = await this.repository.modify(id, data);
+      return result;
+    } catch (e) {
+      throw new Error(`Service 오류 발생 ${e.message}`);
     }
+  }
 
-    async delete(id) {
-        try {
-            const result = await this.repository.delete(id);
-            return result;
-        } catch (e) {
-            throw new Error(`Service 오류 발생 ${e.message}`);
-        }
+  async delete(id) {
+    try {
+      const result = await this.repository.delete(id);
+      return result;
+    } catch (e) {
+      throw new Error(`Service 오류 발생 ${e.message}`);
     }
+  }
 }
 
 class AnnouncementBoardService {
-    constructor() {
-        this.repository = new AnnouncementBoardRepository();
-    }
+  constructor() {
+    this.repository = new AnnouncementBoardRepository();
+  }
 
-    async getFindAll() {
-        try {
-            const result = await this.repository.findAll();
-            return result;
-        } catch (e) {
-            throw new Error(`Service 오류 발생 ${e.message}`);
-        }
+  async getFindAll() {
+    try {
+      const result = await this.repository.findAll();
+      result.sort((a, b) => b.id - a.id);
+      return result;
+    } catch (e) {
+      throw new Error(`Service 오류 발생 ${e.message}`);
     }
+  }
 
-    async getFindOne(id) {
-        try {
-            await this.repository.incrementHit(id);
-            const result = await this.repository.findOne(id);
-            return result;
-        } catch (e) {
-            throw new Error(`Service 오류 발생 ${e.message}`);
-        }
+  async getFindOne(id) {
+    try {
+      await this.repository.incrementHit(id);
+      const result = await this.repository.findOne(id);
+      return result;
+    } catch (e) {
+      throw new Error(`Service 오류 발생 ${e.message}`);
     }
+  }
 
-    async getFindOneWithoutIncreamentHit(id) {
-        try {
-            const result = await this.repository.findOne(id);
-            return result;
-        } catch (e) {
-            throw new Error(`Service 오류 발생 ${e.message}`);
-        }
+  async getFindOneWithoutIncreamentHit(id) {
+    try {
+      const result = await this.repository.findOne(id);
+      return result;
+    } catch (e) {
+      throw new Error(`Service 오류 발생 ${e.message}`);
     }
+  }
 
-    async write(data) {
-        try {
-            const result = await this.repository.write(data);
-            return result;
-        } catch (e) {
-            throw new Error(`Service 오류 발생 ${e.message}`);
-        }
+  async write(data) {
+    try {
+      const result = await this.repository.write(data);
+      return result;
+    } catch (e) {
+      throw new Error(`Service 오류 발생 ${e.message}`);
     }
+  }
 
-    async modify(id, data) {
-        try {
-            const result = await this.repository.modify(id, data);
-            return result;
-        } catch (e) {
-            throw new Error(`Service 오류 발생 ${e.message}`);
-        }
+  async modify(id, data) {
+    try {
+      const result = await this.repository.modify(id, data);
+      return result;
+    } catch (e) {
+      throw new Error(`Service 오류 발생 ${e.message}`);
     }
+  }
 
-    async delete(id) {
-        try {
-            const result = await this.repository.delete(id);
-            return result;
-        } catch (e) {
-            throw new Error(`Service 오류 발생 ${e.message}`);
-        }
+  async delete(id) {
+    try {
+      const result = await this.repository.delete(id);
+      return result;
+    } catch (e) {
+      console.log("boardService delete Error : ", e.message);
+      throw new Error(`Service 오류 발생 ${e.message}`);
     }
+  }
 }
 
 module.exports = {
-    FreeBoardService,
-    AnnouncementBoardService,
+  FreeBoardService,
+  AnnouncementBoardService,
 };
 
 // ---------------- 클래스화 이전의 코드들

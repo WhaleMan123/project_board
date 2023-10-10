@@ -1,8 +1,20 @@
 const moment = require("moment");
 const userService = require("./user.service");
 
-exports.getLogin = (req, res) => {
-  res.render("login.html");
+exports.getLogin = async (req, res) => {
+  try {
+    let user;
+    if (req.user) {
+      user = req.user;
+      console.log({ user: user });
+      res.render("login.html", { user: user });
+    } else {
+      res.render("login.html");
+    }
+  } catch (error) {
+    console.log("Controller getLogin Error : ", error.message);
+    next(error);
+  }
 };
 
 exports.getLogout = (req, res) => {
@@ -24,6 +36,7 @@ exports.getInfo = async (req, res) => {
     res.render("user/user.info.html", { user: user });
   } catch (error) {
     console.log("Controller getInfo Error : ", error.message);
+    next(error);
   }
 };
 
@@ -43,6 +56,7 @@ exports.getDelete = async (req, res) => {
   try {
     const userEmail = req.user.email;
     await userService.getDelete(userEmail);
+    res.clearCookie("token");
     res.redirect("/");
   } catch (error) {
     console.log("Controller getDelete Error : ", error.message);
@@ -55,13 +69,8 @@ exports.postLogin = async (req, res, next) => {
     const result = await userService.postLogin(user_email, user_password);
 
     if (result.isLogin) {
-      // res.setHeader(
-      //   "Set-Cookie",
-      //   `token=${result.data}; Max-Age=3; domain=localhost; path=/; `
-      // );
-      // 위의 내용은 res.cookie는 이것과 동일한 의미
       res.cookie("token", result.data, {
-        maxAge: 60 * 60 * 1000,
+        maxAge: 60 * 60 * 1000, // cookie에서 maxAge 옵션은 ms 기준이다.(1000ms는 1초)
         domain: "localhost",
         path: "/",
       });
