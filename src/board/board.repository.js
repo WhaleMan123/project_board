@@ -25,6 +25,16 @@ class BoardRepository {
     }
   }
 
+  async findOneComment(id) {
+    try {
+      const sql = `select * from comment where board_id=?`;
+      const [result] = await pool.query(sql, [id]);
+      return result;
+    } catch (e) {
+      throw new Error(`DB 오류 발생 ${e.message}`);
+    }
+  }
+
   async incrementHit(id) {
     try {
       const sql = `update ${this.tableName} set hit = hit + 1 where id=?`;
@@ -37,13 +47,14 @@ class BoardRepository {
     }
   }
 
-  async write(data) {
+  async write(data, userEmail) {
     try {
-      const sql = `insert into ${this.tableName}(title, content, writer) values(?, ?, ?)`;
+      const sql = `insert into ${this.tableName} (title, content, writer, email) values(?, ?, ?, ?)`;
       const [rows, fields] = await pool.query(sql, [
         data.title,
         data.content,
         data.writer,
+        userEmail,
       ]);
       return { id: rows.insertId };
     } catch (e) {

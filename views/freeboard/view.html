@@ -3,24 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{title}}</title>
+    <title>{{result.title}}</title>
   </head>
   <body>
-    <p>제목: {{title}}</p>
-    <p>생성날짜: {{formattedDate}}</p>
-    <p>글쓴이: {{writer}}</p>
-    <p>내용: {{content}}</p>
-    <p>조회 수 : {{hit}}</p>
+    <p>제목: {{result.title}}</p>
+    <p>생성날짜: {{result.formattedDate}}</p>
+    <p>글쓴이: {{result.writer}}</p>
+    <p>내용: {{result.content}}</p>
+    <p>조회 수 : {{result.hit}}</p>
     <a href="/boards/freeboard/list">자유게시판 글 목록</a>
-    <a href="/boards/freeboard/modify?id={{id}}">글 수정</a>
+    <a href="/boards/freeboard/modify?id={{result.id}}">글 수정</a>
     <a href="/">홈으로</a>
     <form
       id="deleteForm"
       method="post"
-      action="/boards/freeboard/delete?id={{id}}"
+      action="/boards/freeboard/delete?id={{result.id}}"
     >
       <button type="button" id="deleteButton">글 삭제</button>
     </form>
+    <div class="comment-wrapper">
+      {% for data in comment %}
+      <table>
+        <td>{{data.writer}}</td>
+        <td>{{data.content}}</td>
+        <td>{{data.created_at}}</td>
+      </table>
+      {% endfor %}
+      <form method="POST" action="/boards/freeboard/writecomment">
+        <input type="text" id="content" name="content" />
+        <input type="submit" value="댓글 작성" />
+      </form>
+    </div>
   </body>
   <script>
     document.getElementById("deleteButton").addEventListener("click", () => {

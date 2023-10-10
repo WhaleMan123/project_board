@@ -35,5 +35,3 @@ app.listen(process.env.PORT, async () => {
     console.log("DB Connection Error", error.message);
   }
 });
-
-// dd

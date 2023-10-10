@@ -1,4 +1,4 @@
-// const boardRepository = require("./board.repository");
+const moment = require("moment");
 
 const {
   FreeBoardRepository,
@@ -33,6 +33,21 @@ class FreeBoardService {
     }
   }
 
+  async getFindComment(id) {
+    try {
+      const result = await this.repository.findOneComment(id);
+
+      result.forEach((item) => {
+        item.created_at = moment(item.created_at).format("MM. DD HH:mm:ss");
+      });
+
+      console.log("Comment : ", result);
+      return result;
+    } catch (e) {
+      throw new Error(`Service 오류 발생 ${e.message}`);
+    }
+  }
+
   async getFindOneWithoutIncreamentHit(id) {
     try {
       const result = await this.repository.findOne(id);
@@ -42,9 +57,9 @@ class FreeBoardService {
     }
   }
 
-  async write(data) {
+  async write(data, userEmail) {
     try {
-      const result = await this.repository.write(data);
+      const result = await this.repository.write(data, userEmail);
       return result;
     } catch (e) {
       throw new Error(`Service 오류 발생 ${e.message}`);

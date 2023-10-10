@@ -9,6 +9,7 @@ router.get("/freeboard/modify", controller.freeboardGetModify);
 router.post("/freeboard/write", controller.freeboardPostWrite);
 router.post("/freeboard/modify", controller.freeboardPostModify);
 router.post("/freeboard/delete", controller.freeboardPostDelete);
+router.post("/freeboard/writecomment", controller.freeboardWriteComment);
 
 router.get("/announcement/list", controller.announcementGetList);
 router.get("/announcement/view", controller.announcementGetView);
