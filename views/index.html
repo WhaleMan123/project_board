@@ -1,20 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>경일판에 오신 것은 환영합니다</title>
-  </head>
-  <body>
-    <a href="/boards/announcement/list">공지사항 가기</a>
-    <a href="/boards/freeboard/list">자유게시판 가기</a>
-    <div>
-      {% if user %} {{user.email}} 계정 <a href="users/logout">로그아웃</a>
-      <p>{{user.username}}님 환영합니다.</p>
-      <a href="users/info">회원 정보 조회</a>
-      {% else %}
-      <a href="/users/login">로그인</a>
-      {% endif %}
-    </div>
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- SEO (Search Engine Optimization) -->
+        <title>We Make Bull!</title>
+        <meta name="description" content="we make crypto bull" />
+        <meta name="author" content="Seon, Taehoon" />
+        <link rel="shortcut icon" href="../public/images/favicon.ico" type="image/x-icon" />
+        <!-- OG (Open Graph) -->
+        <meta property="og:title" content="션과 태훈의 포트폴리오" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="배포 후 생성된 URL" />
+        <meta property="og:image" content="배포 후 생성된 이미지 URL" />
+        <!-- Goggle Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,600;1,400&display=swap"
+            rel="stylesheet"
+        />
+        <!-- Font Awesome -->
+        <script src="https://kit.fontawesome.com/76b94c2aa9.js" crossorigin="anonymous"></script>
+        <!-- Typeit -->
+        <script src="https://unpkg.com/typeit@8.7.1/dist/index.umd.js"></script>
+        <!-- CSS -->
+        <link rel="stylesheet" href="../public/css/index.css" />
+        <!-- Javascript -->
+        <script type="module" src="../lib/main.js" defer></script>
+        <script type="module" src="../lib/projects.js" defer></script>
+        <script type="module" src="../lib/active_menu.js" defer></script>
+        <script type="module" src="../lib/type.js" defer></script>
+        <script type="module" src="../lib/slide.js" defer></script>
+    </head>
+    <body>
+        <!-- Header -->
+        <header class="header">
+            <div class="header__logo">
+                <img class="header__logo__img" src="../public/images/favicon.ico" alt="logo" />
+                <h1 class="header__logo__title"><a href="#"></a></h1>
+            </div>
+            <nav class="header__nav">
+                <ul class="header__menu">
+                    <li><a class="header__menu__item active" href="#home">Home</a></li>
+                    <li><a class="header__menu__item" href="#about">About</a></li>
+                    <li><a class="header__menu__item" href="#skills">Skills</a></li>
+                    <li><a class="header__menu__item" href="#work">My work</a></li>
+                    <li><a class="header__menu__item" href="#testimonial">Testimonial</a></li>
+                    <li><a class="header__menu__item" href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="header__toggle" aria-label="navigation menu toggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </header>
+
+        <a href="/boards/announcement/list">공지사항 가기</a>
+        <a href="/boards/freeboard/list">자유게시판 가기</a>
+        <div>
+            {% if user %} {{user.email}} 계정 <a href="users/logout">로그아웃</a>
+            <p>{{user.username}}님 환영합니다.</p>
+            <a href="users/info">회원 정보 조회</a>
+            {% else %}
+            <a href="/users/login">로그인</a>
+            {% endif %}
+        </div>
+    </body>
 </html>
