@@ -4,13 +4,24 @@ const {
   AnnouncementBoardService,
 } = require("./board.service");
 const date = require("../../lib/date");
+const { format } = require("../../pool");
 
 const freeBoardService = new FreeBoardService();
 const announcementBoardService = new AnnouncementBoardService();
 
-exports.freeboardGetWrite = (req, res) => {
-  const { username } = req.user;
-  res.render("freeboard/write.html", { username });
+exports.freeboardGetWrite = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.send(
+        `<script>alert("로그인이 필요합니다."); window.location.href="/users/login";</script>`
+      );
+    }
+    const { username } = req.user;
+    res.render("freeboard/write.html", { username });
+  } catch (error) {
+    console.log("Controller freeboardGetWrite ERROR : ", error.message);
+    next(error);
+  }
 };
 
 exports.announcementGetWrite = (req, res) => {
@@ -24,14 +35,20 @@ exports.announcementGetWrite = (req, res) => {
 
 exports.freeboardGetList = async (req, res, next) => {
   try {
+    let user;
+    if (req.user) {
+      user = req.user;
+    } else {
+      user = null;
+    }
+
     const result = await freeBoardService.getFindAll();
     const formattedResults = result.map((item) => {
       item.formattedDate = date.formatDate(item.created_at);
       return item;
     });
 
-    res.render("freeboard/list.html", { list: formattedResults });
-    // console.log(result);
+    res.render("freeboard/list.html", { list: formattedResults, user: user });
   } catch (e) {
     next(e);
   }
@@ -39,20 +56,27 @@ exports.freeboardGetList = async (req, res, next) => {
 
 exports.announcementGetList = async (req, res, next) => {
   try {
-    const level = req.user.level;
+    let level;
+    let user;
+    if (req.user && req.user.level) {
+      level = req.user.level;
+      user = req.user;
+    } else {
+      level = 0;
+      user = null;
+    }
+
     const result = await announcementBoardService.getFindAll();
+
     const formattedResults = result.map((item) => {
       item.formattedDate = date.formatDate(item.created_at);
       return item;
     });
-    // console.log("announcementGetList  ", formattedResults);
-    // console.log("announcementGetList object  ", {
-    //   list: formattedResults,
-    //   level: level,
-    // });
+
     res.render("announcement/list.html", {
       list: formattedResults,
       level: level,
+      user: user,
     });
   } catch (error) {
     console.log("Controller announcementGetList ERROR : ", error.message);
@@ -62,10 +86,8 @@ exports.announcementGetList = async (req, res, next) => {
 
 exports.freeboardGetView = async (req, res, next) => {
   try {
-    // console.log("ID 값:", req.query.id);
     const [result] = await freeBoardService.getFindOne(req.query.id);
     result.formattedDate = date.formatDate(result.created_at);
-
     res.render("freeboard/view.html", result);
     // console.log(result);
   } catch (e) {
@@ -75,9 +97,13 @@ exports.freeboardGetView = async (req, res, next) => {
 
 exports.announcementGetView = async (req, res, next) => {
   try {
-    // console.log("ID 값:", req.query.id);
+    let level;
+    if (req.user && req.user.level) {
+      level = req.user.level;
+    } else {
+      level = 0;
+    }
     const [result] = await announcementBoardService.getFindOne(req.query.id);
-    const level = req.user.level;
     result.formattedDate = date.formatDate(result.created_at);
     result.level = level;
     res.render("announcement/view.html", result);

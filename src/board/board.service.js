@@ -16,6 +16,7 @@ class FreeBoardService {
   async getFindAll() {
     try {
       const result = await this.repository.findAll();
+      result.sort((a, b) => b.id - a.id);
       return result;
     } catch (e) {
       throw new Error(`Service 오류 발생 ${e.message}`);
@@ -77,6 +78,7 @@ class AnnouncementBoardService {
   async getFindAll() {
     try {
       const result = await this.repository.findAll();
+      result.sort((a, b) => b.id - a.id);
       return result;
     } catch (e) {
       throw new Error(`Service 오류 발생 ${e.message}`);

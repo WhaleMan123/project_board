@@ -12,11 +12,10 @@
     <p>내용: {{content}}</p>
     <p>조회 수 : {{hit}}</p>
     <a href="/boards/announcement/list">공지사항 글 목록</a>
+    <a href="/">홈으로</a>
+    <!-- level 2 이상 관리자만 뜨는 elements -->
     {% if level >= 2 %}
     <a href="/boards/announcement/modify?id={{id}}">글 수정</a>
-    {% endif %}
-    <a href="/">홈으로</a>
-    {% if level >= 2 %}
     <form
       id="deleteForm"
       method="post"

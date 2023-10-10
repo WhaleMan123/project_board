@@ -30,10 +30,18 @@
     {% if level >=2 %}
     <a href="/boards/announcement/write">글 작성</a>
     {% endif %}
-    <a href="/users/login">로그인</a>
     <form action="/search" method="GET">
       <input type="text" name="query" placeholder="검색어를 입력하세요..." />
       <input type="submit" value="검색" />
     </form>
+    <!-- 로그인, 비로그인 템플릿 -->
+    <div>
+      {% if user %}
+      <!--  -->
+      {{user.username}}님 환영합니다.<a href="/users/logout">로그아웃</a>
+      {% else %}
+      <a href="/users/login">로그인</a>
+      {% endif %}
+    </div>
   </body>
 </html>
