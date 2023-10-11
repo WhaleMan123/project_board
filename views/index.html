@@ -17,7 +17,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,600;1,400&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Anton&family=Open+Sans:ital,wght@0,600;1,400&family=Outfit:wght@500&display=swap"
             rel="stylesheet"
         />
         <!-- Font Awesome -->
@@ -25,50 +25,493 @@
         <!-- Typeit -->
         <script src="https://unpkg.com/typeit@8.7.1/dist/index.umd.js"></script>
         <!-- CSS -->
-        <link rel="stylesheet" href="../public/css/index.css" />
+        <link rel="stylesheet" href="/css/index.css" />
         <!-- Javascript -->
-        <script type="module" src="../lib/main.js" defer></script>
-        <script type="module" src="../lib/projects.js" defer></script>
-        <script type="module" src="../lib/active_menu.js" defer></script>
-        <script type="module" src="../lib/type.js" defer></script>
-        <script type="module" src="../lib/slide.js" defer></script>
+        <script type="module" src="/js/main.js" defer></script>
+        <script type="module" src="/js/projects.js" defer></script>
+        <script type="module" src="/js/active_menu.js" defer></script>
+        <script type="module" src="/js/type.js" defer></script>
+        <script type="module" src="/js/slide.js" defer></script>
     </head>
     <body>
         <!-- Header -->
         <header class="header">
             <div class="header__logo">
-                <img class="header__logo__img" src="../public/images/favicon.ico" alt="logo" />
-                <h1 class="header__logo__title"><a href="#"></a></h1>
+                <a href="#"> <img class="header__logo__img" src="/images/favicon.ico" alt="logo" /></a>
             </div>
+
             <nav class="header__nav">
                 <ul class="header__menu">
                     <li><a class="header__menu__item active" href="#home">Home</a></li>
                     <li><a class="header__menu__item" href="#about">About</a></li>
+                    <li><a class="header__menu__item" href="#branches">Branches</a></li>
                     <li><a class="header__menu__item" href="#skills">Skills</a></li>
                     <li><a class="header__menu__item" href="#work">My work</a></li>
-                    <li><a class="header__menu__item" href="#testimonial">Testimonial</a></li>
                     <li><a class="header__menu__item" href="#contact">Contact</a></li>
                 </ul>
             </nav>
             <button class="header__toggle" aria-label="navigation menu toggle">
                 <i class="fa-solid fa-bars"></i>
             </button>
-        </header>
+            <div class="login">
+                {% if user %}
+                <div class="button-container">
+                    <a class="loginbutton" href="/users/info">Myinfo</a>
+                    <a class="loginbutton" href="/users/logout">Logout</a>
+                </div>
 
-    
-      
-      <a href="/boards/announcement/list">공지사항 가기</a>
-    <a href="/boards/freeboard/list">자유게시판 가기</a>
-    <div>
-      {% if user %} {{user.email}} 계정
-      <p>{{user.username}}님 환영합니다.</p>
-      <a href="/users/info">회원 정보 조회</a>
-      <a href="/users/logout">로그아웃</a>
-      {% else %}
-      <a href="/users/login">로그인</a>
-      {% endif %}
-    </div>
-      
-      
+                <p><span class="username">{{user.username}},</span> Welcome here!</p>
+                {% else %}
+                <a class="loginbutton" href="/users/login">Login</a>
+
+                <!-- <button onclick="location.href='/users/login'" class="login-button">로그인</button> -->
+                {% endif %}
+            </div>
+        </header>
+        <main>
+            <!-- Home -->
+            <section id="home">
+                <div class="max-container home__container">
+                    <img class="home__botimage" src="/images/tradingbot.png" alt="bot image" />
+                    <div class="home__textcontainer">
+                        <h2 class="home__title" aria-label="wemakebull">
+                            Cryptocurrency <br /><strong class="home__title--strong">Ultimate Bot</strong>
+                        </h2>
+                        <p class="home__description">for Next-Level, Real-Time Cryptocurrency Analytics and Insights</p>
+                        <a class="home__contact" href="#contact">Contact Us</a>
+                    </div>
+                </div>
+                <div class="home__divider">
+                    <svg
+                        data-name="Layer 1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 1200 120"
+                        preserveAspectRatio="none"
+                    >
+                        <path
+                            d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
+                            opacity=".25"
+                            class="shape-fill"
+                        ></path>
+                        <path
+                            d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z"
+                            opacity=".5"
+                            class="shape-fill"
+                        ></path>
+                        <path
+                            d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"
+                            class="shape-fill"
+                        ></path>
+                    </svg>
+                </div>
+            </section>
+            <!-- About -->
+            <section id="about" class="section max-container">
+                <h2 class="title">Our Features</h2>
+                <p class="description" style="margin-bottom: 3rem">Simple Bot with Advanced Tools</p>
+                <p class="description2">
+                    WeMakeBull was founded in 2023. Initially, the focus was solely on monitoring wallets within the
+                    Ethereum network. <br />
+                    <br />
+                    However, as we continued our phased development, it became evident how vital this bot is to the
+                    crypto community. <br />
+                    <br />
+                    What truly sets it apart and adds the most value for our users are its unique features. <br />
+                    <br />
+                    So what are these standout features?
+                </p>
+                <ul class="abouts">
+                    <li class="about">
+                        <img src="/images/product1.png" alt="product1" class="about__img" />
+                        <div class="about__bubble">
+                            <p>
+                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Animi, laboriosam. Pariatur
+                                dolore rem cupiditate, velit similique nam asperiores dignissimos facere aspernatur
+                                minima autem eius explicabo, repellat hic vero impedit quas!
+                            </p>
+                            <p><a class="about__bubble__name" href="#">James Kim</a> / Google</p>
+                        </div>
+                    </li>
+                    <li class="about">
+                        <img src="/images/product2.png" alt="product2" class="about__img" />
+                        <div class="about__bubble">
+                            <p>
+                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Animi, laboriosam. Pariatur
+                                dolore rem cupiditate, velit similique nam asperiores dignissimos facere aspernatur
+                                minima autem eius explicabo, repellat hic vero impedit quas!
+                            </p>
+                            <p><a class="about__bubble__name" href="#">Anna Jin</a> / Samsung</p>
+                        </div>
+                    </li>
+                    <li class="about">
+                        <img src="/images/product3.png" alt="product3" class="about__img" />
+                        <div class="about__bubble">
+                            <p>
+                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Animi, laboriosam. Pariatur
+                                dolore rem cupiditate, velit similique nam asperiores dignissimos facere aspernatur
+                                minima autem eius explicabo, repellat hic vero impedit quas!
+                            </p>
+                            <p><a class="about__bubble__name" href="#">Pala Joe</a> / Samsung</p>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+            <!-- About2 -->
+            <section id="about2" class="section max-container">
+                <h2 class="title">Our Features</h2>
+                <p class="description">Simple Bot with Advanced Tools</p>
+                <ul class="majors">
+                    <li class="major">
+                        <i class="fa-brands fa-html5 major__icon"></i>
+                        <p class="major__title">Front-end</p>
+                        <p>HTML, CSS, Javascript dddddddddddddddddddddddddd</p>
+                    </li>
+                    <li class="major">
+                        <i class="fa-solid fa-mobile major__icon"></i>
+                        <p class="major__title">Mobile</p>
+                        <p>Flutter, Android, iOS ddddddddddddddddddddddddddddd</p>
+                    </li>
+                    <li class="major">
+                        <i class="fa-solid fa-server major__icon"></i>
+                        <p class="major__title">Back-end</p>
+                        <p>NodeJS, Javascript ddddddddddddddddddddddddddddd</p>
+                    </li>
+                </ul>
+                <ul class="jobs">
+                    <li class="job">
+                        <img src="./images/jobs/google.png" alt="google logo" />
+                        <div>
+                            <p class="job__name">Google as Senior Software Engineer</p>
+                            <p class="job__period">2019 Oct - Until now</p>
+                        </div>
+                    </li>
+                    <li class="job">
+                        <img src="./images/jobs/samsung.png" alt="" />
+                        <div>
+                            <p class="job__name">Samsung as Software Engineer</p>
+                            <p class="job__period">2014 Sept - 2019 Oct</p>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+            <!-- Branches -->
+            <section id="branches">
+                <div class="slideshow-container">
+                    <div class="mySlides fade">
+                        <div class="numbertext">1 / 3</div>
+                        <img src="/images/hongkong.jpg" style="width: 100%" />
+                        <div class="slide__text">Hongkong Head Office</div>
+                    </div>
+
+                    <div class="mySlides fade">
+                        <div class="numbertext">2 / 3</div>
+                        <img src="/images/shanghai.jpg" style="width: 100%" />
+                        <div class="slide__text">Shanghai Branch</div>
+                    </div>
+
+                    <div class="mySlides fade">
+                        <div class="numbertext">3 / 3</div>
+                        <img src="/images/tokyo.webp" style="width: 100%" />
+                        <div class="slide__text">Tokyo Branch</div>
+                    </div>
+                    <br />
+                    <div style="text-align: center">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                </div>
+            </section>
+            <!-- Announcement -->
+            <section id="announcement">
+                <h2 class="title">Announcement</h2>
+                <p class="description tablespace">Check out important news!</p>
+                <table class="announcement__table">
+                    <tr>
+                        <th class="tableno">NO</th>
+                        <th class="tabletitle">Title</th>
+                        <th class="tablenickname">Nickname</th>
+                        <th class="tabledate">Date</th>
+                        <th class="tablehit">hit</th>
+                    </tr>
+                    {% for data in announcementList %}
+                    <tr>
+                        <td>{{data.id}}</td>
+                        <td>
+                            <a class="board__title" href="/boards/announcement/view?id={{data.id}}">{{data.title}}</a>
+                        </td>
+                        <td>{{data.writer}}</td>
+                        <td>{{data.formattedDate}}</td>
+                        <td>{{data.hit}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <a class="writebutton1" href="/boards/announcement/write">Write Announcement</a>
+            </section>
+            <!-- Freeboard -->
+            <section id="freeboard">
+                <h2 class="title">Open Forum</h2>
+                <p class="description tablespace openforum">Feel free to share information about crypto trading!</p>
+                <table>
+                    <tr>
+                        <th class="tableno">NO</th>
+                        <th class="tabletitle">Title</th>
+                        <th class="tablenickname">Nickname</th>
+                        <th class="tabledate">Date</th>
+                        <th class="tablehit">hit</th>
+                    </tr>
+                    {% for data in freeList %}
+                    <tr>
+                        <td>{{data.id}}</td>
+                        <td>
+                            <a class="board__title" href="/boards/freeboard/view?id={{data.id}}">{{data.title}}</a>
+                        </td>
+                        <td>{{data.writer}}</td>
+                        <td>{{data.formattedDate}}</td>
+                        <td>{{data.hit}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <a class="writebutton2" href="/boards/freeboard/write">Write</a>
+            </section>
+            <!-- Skills -->
+            <section id="skills" class="section">
+                <div class="max-container">
+                    <h2 class="title">My Skills</h2>
+                    <p class="description">Skills & Attributes</p>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. At omnis atque, inventore rem maxime
+                        est quas vero nam, ducimus consequatur tempora, ipsum perspiciatis sit reiciendis facilis eius
+                        mollitia doloribus possimus.
+                    </p>
+                    <div class="skills">
+                        <section class="skills__coding">
+                            <h3 class="skills__title">Coding Skills</h3>
+                            <ul>
+                                <li class="bar">
+                                    <div class="bar__metadata"><span>HTML</span><span>98%</span></div>
+                                    <div class="bar__bg">
+                                        <div class="bar__value" style="width: 98%"></div>
+                                    </div>
+                                </li>
+                                <li class="bar">
+                                    <div class="bar__metadata"><span>CSS</span><span>90%</span></div>
+                                    <div class="bar__bg">
+                                        <div class="bar__value" style="width: 90%"></div>
+                                    </div>
+                                </li>
+                                <li class="bar">
+                                    <div class="bar__metadata"><span>JS</span><span>90%</span></div>
+                                    <div class="bar__bg">
+                                        <div class="bar__value" style="width: 90%"></div>
+                                    </div>
+                                </li>
+                                <li class="bar">
+                                    <div class="bar__metadata"><span>TS</span><span>80%</span></div>
+                                    <div class="bar__bg">
+                                        <div class="bar__value" style="width: 80%"></div>
+                                    </div>
+                                </li>
+                                <li class="bar">
+                                    <div class="bar__metadata"><span>React</span><span>79%</span></div>
+                                    <div class="bar__bg">
+                                        <div class="bar__value" style="width: 79%"></div>
+                                    </div>
+                                </li>
+                                <li class="bar">
+                                    <div class="bar__metadata"><span>NodeJS</span><span>68%</span></div>
+                                    <div class="bar__bg">
+                                        <div class="bar__value" style="width: 68%"></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </section>
+                        <section class="skills__tools">
+                            <h3 class="skills__title">Tools</h3>
+                            <ul>
+                                <li>VS Code</li>
+                                <li>IntelliJ</li>
+                                <li>Android Studio Code</li>
+                                <li>iOS development tools</li>
+                                <li>Sketch app</li>
+                            </ul>
+                        </section>
+                        <section class="skills__etc">
+                            <h3 class="skills__title">Etc</h3>
+                            <ul>
+                                <li>Git</li>
+                                <li>Scrum Master</li>
+                                <li>Chinese Language</li>
+                            </ul>
+                        </section>
+                    </div>
+                </div>
+                <div class="skills__divider">
+                    <svg
+                        data-name="Layer 1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 1200 120"
+                        preserveAspectRatio="none"
+                    >
+                        <path
+                            d="M1200,0H0V120H281.94C572.9,116.24,602.45,3.86,602.45,3.86h0S632,116.24,923,120h277Z"
+                            class="shape-fill"
+                        ></path>
+                    </svg>
+                </div>
+            </section>
+            <!-- Work -->
+            <section id="work" class="section">
+                <div class="max-container">
+                    <h2 class="title">My work</h2>
+                    <p class="description">Projects</p>
+                    <ul class="categories">
+                        <li>
+                            <button class="category category--selected" data-category="all">
+                                All <span class="category__count">8</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="category" data-category="front-end">
+                                Front-end <span class="category__count">4</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="category" data-category="back-end">
+                                Back-end <span class="category__count">2</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="category" data-category="mobile">
+                                Mobile <span class="category__count">2</span>
+                            </button>
+                        </li>
+                    </ul>
+                    <ul class="projects">
+                        <li class="project" data-type="front-end">
+                            <a href="#" target="_blank"
+                                ><img src="./images/projects/project1.webp" alt="project1" class="project__img" />
+                                <div class="project__metadata">
+                                    <h3 class="project__title">Project #1</h3>
+
+                                    <p>Clone Coding with HTML, CSS</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="project" data-type="front-end">
+                            <a href="#" target="_blank"
+                                ><img src="./images/projects/project2.webp" alt="project2" class="project__img" />
+                                <div class="project__metadata">
+                                    <h3 class="project__title">Project #2</h3>
+                                    <p>Clone Coding with HTML, CSS</p>
+                                </div></a
+                            >
+                        </li>
+                        <li class="project" data-type="back-end">
+                            <a href="#" target="_blank">
+                                <img src="./images/projects/project3.webp" alt="project3" class="project__img" />
+                                <div class="project__metadata">
+                                    <h3 class="project__title">Project #3</h3>
+                                    <p>Clone Coding with HTML, CSS</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="project" data-type="mobile">
+                            <a href="#" target="_blank"
+                                ><img src="./images/projects/project4.webp" alt="project4" class="project__img" />
+                                <div class="project__metadata">
+                                    <h3 class="project__title">Project #4</h3>
+                                    <p>Clone Coding with HTML, CSS</p>
+                                </div></a
+                            >
+                        </li>
+                        <li class="project" data-type="front-end">
+                            <a href="#" target="_blank"
+                                ><img src="./images/projects/project5.webp" alt="project5" class="project__img" />
+                                <div class="project__metadata">
+                                    <h3 class="project__title">Project #5</h3>
+                                    <p>Clone Coding with HTML, CSS</p>
+                                </div></a
+                            >
+                        </li>
+                        <li class="project" data-type="back-end">
+                            <a href="#" target="_blank"
+                                ><img src="./images/projects/project6.webp" alt="project6" class="project__img" />
+                                <div class="project__metadata">
+                                    <h3 class="project__title">Project #6</h3>
+                                    <p>Clone Coding with HTML, CSS</p>
+                                </div></a
+                            >
+                        </li>
+                        <li class="project" data-type="mobile">
+                            <a href="#" target="_blank"
+                                ><img src="./images/projects/project7.webp" alt="project7" class="project__img" />
+                                <div class="project__metadata">
+                                    <h3 class="project__title">Project #7</h3>
+                                    <p>Clone Coding with HTML, CSS</p>
+                                </div></a
+                            >
+                        </li>
+                        <li class="project" data-type="front-end">
+                            <a href="#" target="_blank"
+                                ><img src="./images/projects/project8.webp" alt="project8" class="project__img" />
+                                <div class="project__metadata">
+                                    <h3 class="project__title">Project #8</h3>
+                                    <p>Clone Coding with HTML, CSS</p>
+                                </div></a
+                            >
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Arrow up -->
+            <aside>
+                <a class="arrow-up" href="#home" title="back to top">
+                    <i class="fa-solid fa-arrow-up"></i>
+                </a>
+            </aside>
+        </main>
+        <!-- Footer -->
+        <footer id="contact" class="section">
+            <div class="contact__divider">
+                <svg
+                    data-name="Layer 1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 1200 120"
+                    preserveAspectRatio="none"
+                >
+                    <path d="M649.97 0L550.03 0 599.91 54.12 649.97 0z" class="shape-fill"></path>
+                </svg>
+            </div>
+            <div>
+                <h2 class="contact__title">Let&#39;s make a bull with us!</h2>
+                <ul class="contact__links">
+                    <li class="contact__links__li">
+                        <a
+                            class="contact__link"
+                            href="https://github.com/WhaleMan123"
+                            target="_blank"
+                            title="taehoon github link"
+                        >
+                            <span>Taehoon (Back-end)</span>
+                            <i class="fa-brands fa-github"></i>
+                        </a>
+                    </li>
+                    <li class="contact__links__li">
+                        <a
+                            class="contact__link"
+                            href="https://github.com/applemangopen/blockchain10"
+                            target="_blank"
+                            title="seon github link"
+                        >
+                            <span>Seon (Front-end)</span>
+                            <i class="fa-brands fa-github"></i>
+                        </a>
+                    </li>
+                </ul>
+                <p class="contact__link--rights">Taehoon&Seon - All rights reserved</p>
+            </div>
+        </footer>
     </body>
 </html>

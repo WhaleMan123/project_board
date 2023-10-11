@@ -1,8 +1,5 @@
 // const boardService = require("./board.service");
-const {
-  FreeBoardService,
-  AnnouncementBoardService,
-} = require("./board.service");
+const { FreeBoardService, AnnouncementBoardService } = require("./board.service");
 const date = require("../../lib/date");
 const { format } = require("../../pool");
 
@@ -10,81 +7,109 @@ const freeBoardService = new FreeBoardService();
 const announcementBoardService = new AnnouncementBoardService();
 
 exports.freeboardGetWrite = async (req, res) => {
-  try {
-    if (!req.user) {
-      return res.send(
-        `<script>alert("로그인이 필요합니다."); window.location.href="/users/login";</script>`
-      );
+    try {
+        if (!req.user) {
+            return res.send(`<script>alert("로그인이 필요합니다."); window.location.href="/users/login";</script>`);
+        }
+        const { username } = req.user;
+        res.render("freeboard/write.html", { username });
+    } catch (error) {
+        console.log("Controller freeboardGetWrite ERROR : ", error.message);
+        next(error);
     }
-    const { username } = req.user;
-    res.render("freeboard/write.html", { username });
-  } catch (error) {
-    console.log("Controller freeboardGetWrite ERROR : ", error.message);
-    next(error);
-  }
 };
 
 exports.announcementGetWrite = (req, res) => {
-  const { username, level } = req.user;
-  if (level < 2) {
-    return res.status(403).send("권한이 없습니다.");
-  } else {
-    res.render("announcement/write.html", { username });
-  }
+    const { username, level } = req.user;
+    if (level < 2) {
+        return res.status(403).send("권한이 없습니다.");
+    } else {
+        res.render("announcement/write.html", { username });
+    }
 };
 
 exports.freeboardGetList = async (req, res, next) => {
-  try {
-    let user;
-    if (req.user) {
-      user = req.user;
-    } else {
-      user = null;
+    try {
+        let user;
+        if (req.user) {
+            user = req.user;
+        } else {
+            user = null;
+        }
+
+        const result = await freeBoardService.getFindAll();
+        const formattedResults = result.map((item) => {
+            item.formattedDate = date.formatDate(item.created_at);
+            return item;
+        });
+
+        res.render("freeboard/list.html", { list: formattedResults, user: user });
+    } catch (error) {
+        console.log("Controller freeboardGetList ERROR : ", error.message);
+        next(error);
     }
+};
 
-    const result = await freeBoardService.getFindAll();
-    const formattedResults = result.map((item) => {
-      item.formattedDate = date.formatDate(item.created_at);
-      return item;
-    });
-
-    res.render("freeboard/list.html", { list: formattedResults, user: user });
-  } catch (e) {
-    next(e);
-  }
+exports.getFreeBoardList = async () => {
+    let list = [];
+    try {
+        const result = await freeBoardService.getFindAll();
+        list = result.map((item) => {
+            item.formattedDate = date.formatDate(item.created_at);
+            return item;
+        });
+    } catch (e) {
+        console.error(e);
+    }
+    return list;
 };
 
 exports.announcementGetList = async (req, res, next) => {
-  try {
-    let level;
-    let user;
-    if (req.user && req.user.level) {
-      level = req.user.level;
-      user = req.user;
-    } else {
-      level = 0;
-      user = null;
+    try {
+        let level;
+        let user;
+        if (req.user && req.user.level) {
+            level = req.user.level;
+            user = req.user;
+        } else {
+            level = 0;
+            user = null;
+        }
+
+        const result = await announcementBoardService.getFindAll();
+
+        const formattedResults = result.map((item) => {
+            item.formattedDate = date.formatDate(item.created_at);
+            return item;
+        });
+
+        res.render("announcement/list.html", {
+            list: formattedResults,
+            level: level,
+            user: user,
+        });
+    } catch (error) {
+        console.log("Controller announcementGetList ERROR : ", error.message);
+        next(error);
     }
+};
 
-    const result = await announcementBoardService.getFindAll();
-
-    const formattedResults = result.map((item) => {
-      item.formattedDate = date.formatDate(item.created_at);
-      return item;
-    });
-
-    res.render("announcement/list.html", {
-      list: formattedResults,
-      level: level,
-      user: user,
-    });
-  } catch (error) {
-    console.log("Controller announcementGetList ERROR : ", error.message);
-    next(error);
-  }
+exports.getAnnouncementList = async () => {
+    let list = [];
+    try {
+        const result = await announcementBoardService.getFindAll();
+        list = result.map((item) => {
+            item.formattedDate = date.formatDate(item.created_at);
+            return item;
+        });
+    } catch (e) {
+        console.error(e);
+    }
+    return list;
 };
 
 exports.freeboardGetView = async (req, res, next) => {
+
   try {
     const [result] = await freeBoardService.getFindOne(req.query.id);
     result.formattedDate = date.formatDate(result.created_at);
@@ -98,21 +123,21 @@ exports.freeboardGetView = async (req, res, next) => {
 };
 
 exports.announcementGetView = async (req, res, next) => {
-  try {
-    let level;
-    if (req.user && req.user.level) {
-      level = req.user.level;
-    } else {
-      level = 0;
+    try {
+        let level;
+        if (req.user && req.user.level) {
+            level = req.user.level;
+        } else {
+            level = 0;
+        }
+        const [result] = await announcementBoardService.getFindOne(req.query.id);
+        result.formattedDate = date.formatDate(result.created_at);
+        result.level = level;
+        res.render("announcement/view.html", result);
+    } catch (error) {
+        console.log("Controller announcementGetView ERROR : ", error.message);
+        next(error);
     }
-    const [result] = await announcementBoardService.getFindOne(req.query.id);
-    result.formattedDate = date.formatDate(result.created_at);
-    result.level = level;
-    res.render("announcement/view.html", result);
-  } catch (error) {
-    console.log("Controller announcementGetView ERROR : ", error.message);
-    next(error);
-  }
 };
 
 exports.freeboardGetModify = async (req, res, next) => {
@@ -161,27 +186,25 @@ exports.freeboardGetModify = async (req, res, next) => {
 };
 
 exports.announcementGetModify = async (req, res, next) => {
-  try {
-    const [result] =
-      await announcementBoardService.getFindOneWithoutIncreamentHit(
-        req.query.id
-      );
-    result.formattedDate = date.formatDate(result.created_at);
-    const level = req.user.level;
-    //   console.log("Controller announcementGetModify : ", result);
-    //   console.log("Controller announcementGetModify level : ", level);
-    if (level < 2) {
-      return res.status(403).send("권한이 없습니다.");
-    } else {
-      res.render("announcement/modify.html", result);
+    try {
+        const [result] = await announcementBoardService.getFindOneWithoutIncreamentHit(req.query.id);
+        result.formattedDate = date.formatDate(result.created_at);
+        const level = req.user.level;
+        //   console.log("Controller announcementGetModify : ", result);
+        //   console.log("Controller announcementGetModify level : ", level);
+        if (level < 2) {
+            return res.status(403).send("권한이 없습니다.");
+        } else {
+            res.render("announcement/modify.html", result);
+        }
+    } catch (error) {
+        console.log("Controller announcementGetModify ERROR : ", error.message);
+        next(error);
     }
-  } catch (error) {
-    console.log("Controller announcementGetModify ERROR : ", error.message);
-    next(error);
-  }
 };
 
 exports.freeboardPostWrite = async (req, res, next) => {
+
   try {
     const userEmail = req.user.email;
     const result = await freeBoardService.write(req.body, userEmail);
@@ -192,18 +215,18 @@ exports.freeboardPostWrite = async (req, res, next) => {
 };
 
 exports.announcementPostWrite = async (req, res, next) => {
-  try {
-    const result = await announcementBoardService.write(req.body);
-    const level = req.user.level;
-    if (level < 2) {
-      return res.status(403).send("권한이 없습니다.");
-    } else {
-      res.redirect(`/boards/announcement/view?id=${result.id}`);
+    try {
+        const result = await announcementBoardService.write(req.body);
+        const level = req.user.level;
+        if (level < 2) {
+            return res.status(403).send("권한이 없습니다.");
+        } else {
+            res.redirect(`/boards/announcement/view?id=${result.id}`);
+        }
+    } catch (error) {
+        console.log("Controller announcementPostWrite ERROR : ", error.message);
+        next(error);
     }
-  } catch (error) {
-    console.log("Controller announcementPostWrite ERROR : ", error.message);
-    next(error);
-  }
 };
 
 exports.freeboardPostModify = async (req, res, next) => {
@@ -238,45 +261,45 @@ exports.freeboardPostModify = async (req, res, next) => {
 };
 
 exports.announcementPostModify = async (req, res, next) => {
-  try {
-    const id = req.body.id;
-    const level = req.user.level;
-    if (level < 2) {
-      return res.status(403).send("권한이 없습니다.");
-    } else {
-      await announcementBoardService.modify(id, req.body);
-      res.redirect(`/boards/announcement/view?id=${id}`);
+    try {
+        const id = req.body.id;
+        const level = req.user.level;
+        if (level < 2) {
+            return res.status(403).send("권한이 없습니다.");
+        } else {
+            await announcementBoardService.modify(id, req.body);
+            res.redirect(`/boards/announcement/view?id=${id}`);
+        }
+    } catch (error) {
+        console.log("Controller announcementPostModify ERROR : ", error.message);
+        next(error);
     }
-  } catch (error) {
-    console.log("Controller announcementPostModify ERROR : ", error.message);
-    next(error);
-  }
 };
 
 exports.freeboardPostDelete = async (req, res, next) => {
-  try {
-    const id = req.query.id;
-    await freeBoardService.delete(id);
-    res.redirect("/boards/freeboard/list");
-  } catch (e) {
-    next(e);
-  }
+    try {
+        const id = req.query.id;
+        await freeBoardService.delete(id);
+        res.redirect("/boards/freeboard/list");
+    } catch (e) {
+        next(e);
+    }
 };
 
 exports.announcementPostDelete = async (req, res, next) => {
-  try {
-    const id = req.query.id;
-    const level = req.user.level;
-    if (level < 2) {
-      return res.status(403).send("권한이 없습니다.");
-    } else {
-      await announcementBoardService.delete(id);
-      res.redirect("/boards/announcement/list");
+    try {
+        const id = req.query.id;
+        const level = req.user.level;
+        if (level < 2) {
+            return res.status(403).send("권한이 없습니다.");
+        } else {
+            await announcementBoardService.delete(id);
+            res.redirect("/boards/announcement/list");
+        }
+    } catch (e) {
+        console.log("boardController announcementPostDelete Error : ", e.message);
+        next(e);
     }
-  } catch (e) {
-    console.log("boardController announcementPostDelete Error : ", e.message);
-    next(e);
-  }
 };
 
 exports.freeboardPostWriteComment = async (req, res) => {
@@ -297,90 +320,3 @@ exports.freeboardPostWriteComment = async (req, res) => {
   }
 };
 
-// exports.freeboardAddComment = async (req, res) => {
-//   try {
-
-//   } catch (error) {
-//     console.log("boardController freeboardAddComment Error : ", error.message);
-//     next(error);
-//   }
-// };
-
-//  ---- 나누기 전 이전 코드들
-
-// exports.getList = async (req, res, next) => {
-//     try {
-//         const result = await boardService.getFindAll();
-//         const formattedResults = result.map((item) => {
-//             const date = new Date(item.created_at);
-//             item.formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(
-//                 date.getDate()
-//             ).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(
-//                 2,
-//                 "0"
-//             )}`;
-//             return item;
-//         });
-
-//         res.render("board/list.html", { list: formattedResults });
-//         // console.log(result);
-//     } catch (e) {
-//         next(e);
-//     }
-// };
-
-// exports.getView = async (req, res, next) => {
-//     try {
-//         // console.log("ID 값:", req.query.id);
-//         const [result] = await boardService.getFindOne(req.query.id);
-//         const date = new Date(result.created_at);
-//         result.formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(
-//             date.getDate()
-//         ).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
-
-//         res.render("board/view.html", result);
-//         // console.log(result);
-//     } catch (e) {
-//         next(e);
-//     }
-// };
-
-// exports.getModify = async (req, res, next) => {
-//     const [result] = await boardService.getFindOneWithoutIncreamentHit(req.query.id);
-//     const date = new Date(result.created_at);
-//     result.formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(
-//         date.getDate()
-//     ).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
-
-//     res.render("board/modify.html", result);
-// };
-
-// exports.postWrite = async (req, res, next) => {
-//     try {
-//         const result = await boardService.write(req.body);
-//         // console.log("게시글 작성 후 반환된 결과:", result);
-//         res.redirect(`/boards/view?id=${result.id}`);
-//     } catch (e) {
-//         next(e);
-//     }
-// };
-
-// exports.postModify = async (req, res, next) => {
-//     try {
-//         const id = req.query.id;
-//         await boardService.modify(id, req.body);
-//         res.redirect(`/boards/view?id=${id}`);
-//     } catch (e) {
-//         next(e);
-//     }
-// };
-
-// exports.postDelete = async (req, res, next) => {
-//     try {
-//         const id = req.query.id;
-//         await boardService.delete(id);
-//         res.redirect("/boards/list");
-//     } catch (e) {
-//         next(e);
-//     }
-// };
