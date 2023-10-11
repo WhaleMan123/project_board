@@ -29,7 +29,10 @@
         <td>{{data.created_at}}</td>
       </table>
       {% endfor %}
-      <form method="POST" action="/boards/freeboard/writecomment">
+      <form
+        method="POST"
+        action="/boards/freeboard/writecomment?id={{result.id}}"
+      >
         <input type="text" id="content" name="content" />
         <input type="submit" value="댓글 작성" />
       </form>

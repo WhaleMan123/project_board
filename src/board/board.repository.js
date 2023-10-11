@@ -62,6 +62,22 @@ class BoardRepository {
     }
   }
 
+  async writeComment(data) {
+    try {
+      const sql = `INSERT INTO comment (board_id, email, writer, content) values(?, ?, ?, ?)`;
+      await pool.query(sql, [
+        data.board_id,
+        data.email,
+        data.writer,
+        data.content,
+      ]);
+      return;
+    } catch (e) {
+      console.log("boardRepository writeComment Error : ", e.message);
+      throw new Error(`DB 오류 발생 ${e.message}`);
+    }
+  }
+
   async modify(id, data) {
     try {
       const sql = `UPDATE ${this.tableName} SET title=?, content=?, writer=? WHERE id=?`;

@@ -281,6 +281,16 @@ exports.announcementPostDelete = async (req, res, next) => {
 
 exports.freeboardPostWriteComment = async (req, res) => {
   try {
+    if (!req.user) {
+      return res.send(
+        `<script>alert("로그인이 필요합니다."); window.location.href="/users/login";</script>`
+      );
+    }
+    // console.log("Contoroller freeboardWriteComment Query : ", req.query.id);
+    // console.log("Contoroller freeboardWriteComment : ", req.user);
+    // console.log("Contoroller freeboardWriteComment : ", req.body);
+    await freeBoardService.writeComment(req.body, req.user, req.query.id);
+    res.redirect(`/boards/freeboard/view?id=${req.query.id}`);
   } catch (error) {
     console.log("Controller freeboardWriteComment ERROR : ", error.message);
     next(error);

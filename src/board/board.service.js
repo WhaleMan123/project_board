@@ -33,21 +33,6 @@ class FreeBoardService {
     }
   }
 
-  async getFindComment(id) {
-    try {
-      const result = await this.repository.findOneComment(id);
-
-      result.forEach((item) => {
-        item.created_at = moment(item.created_at).format("MM. DD HH:mm:ss");
-      });
-
-      console.log("Comment : ", result);
-      return result;
-    } catch (e) {
-      throw new Error(`Service 오류 발생 ${e.message}`);
-    }
-  }
-
   async getFindOneWithoutIncreamentHit(id) {
     try {
       const result = await this.repository.findOne(id);
@@ -79,6 +64,44 @@ class FreeBoardService {
     try {
       const result = await this.repository.delete(id);
       return result;
+    } catch (e) {
+      throw new Error(`Service 오류 발생 ${e.message}`);
+    }
+  }
+
+  async getFindComment(id) {
+    try {
+      const result = await this.repository.findOneComment(id);
+
+      result.forEach((item) => {
+        item.created_at = moment(item.created_at).format("MM. DD HH:mm:ss");
+      });
+
+      // console.log("Comment : ", result);
+      return result;
+    } catch (e) {
+      throw new Error(`Service 오류 발생 ${e.message}`);
+    }
+  }
+
+  async writeComment(commentData, userData, queryId) {
+    try {
+      let data = {};
+      let userEmail;
+      if (!userData) {
+        return res.send(
+          `<script>alert("로그인이 필요합니다."); window.location.href="/users/login";</script>`
+        );
+      } else if (userData && userData.email) {
+        data.board_id = queryId;
+        data.email = userData.email;
+        data.writer = userData.username;
+        data.content = commentData.content;
+      }
+      // console.log("Service writeComment data : ", data);
+
+      await this.repository.writeComment(data);
+      return;
     } catch (e) {
       throw new Error(`Service 오류 발생 ${e.message}`);
     }

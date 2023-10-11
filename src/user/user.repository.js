@@ -26,6 +26,7 @@ exports.findOne = async (field, value) => {
 
 exports.registNewUser = async (regist_data) => {
   try {
+    // console.log(regist_data);
     const { email, password, username, gender, birth } = regist_data;
     const sql = `INSERT INTO users (email, password, username, birth, gender) VALUES (?, ?, ?, ?, ?)`;
     const result = await pool.query(sql, [
