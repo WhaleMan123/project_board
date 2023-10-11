@@ -25,7 +25,9 @@
       <button type="submit">로그인 하기</button>
     </form>
     <a href="/users/regist">회원 가입</a>
-    {% endif %} {% if errorMessage %}
+    {% endif %}
+    <!-- - -->
+    {% if errorMessage %}
     <p class="login-fail">{{ errorMessage }}</p>
     {% endif %}
     <a href="/">홈으로</a>
