@@ -39,8 +39,7 @@ exports.postLogin = async (user_email, user_password) => {
 
 exports.postRegist = async (registData) => {
   try {
-    console.log("postRegist", registData);
-
+    // console.log("postRegist", registData);
     userRepository.registNewUser(registData);
   } catch (error) {
     throw new Error("Service postRegist Error : " + error.message);
@@ -52,5 +51,18 @@ exports.postModify = async (userEmail, modifyData) => {
     await userRepository.modifyUserInfo(userEmail, modifyData);
   } catch (error) {
     throw new Error("Service postModify Error : " + error.message);
+  }
+};
+
+exports.checkDuplicateEmail = async (userEmail) => {
+  try {
+    const result = await userRepository.findOne("email", userEmail);
+    if (result) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    throw new Error("Service checkDuplicateEmail Error : " + error.message);
   }
 };

@@ -13,10 +13,11 @@
         <form method="POST" action="/users/regist">
           <table>
             <tbody>
-              <tr>
+              <tr class="email-row">
                 <th><label for="email">이메일</label></th>
                 <td>
                   <input type="email" id="email" name="email" required />
+                  <div id="emailStatus"></div>
                 </td>
               </tr>
               <tr>
@@ -30,19 +31,20 @@
                   />
                 </td>
               </tr>
-              <!-- <tr>
+              <tr>
                 <th><label for="password">패스워드 확인</label></th>
                 <td>
                   <input
                     type="password"
-                    id="password"
-                    name="password"
+                    id="confirm_password"
+                    name="confirm_password"
                     required
+                    placeholder="패스워드 확인"
                   />
                 </td>
-              </tr> -->
+              </tr>
               <tr>
-                <th><label for="username">이름</label></th>
+                <th><label for="username">닉네임</label></th>
                 <td>
                   <input type="text" id="username" name="username" required />
                 </td>
@@ -87,4 +89,111 @@
       {% endif %}
     </div>
   </body>
+  <script>
+    // 이메일 검증
+    document.addEventListener("DOMContentLoaded", function () {
+      let email = document.getElementById("email");
+      function validateEmail() {
+        const emailValue = email.value;
+        const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const hasSpace = /\s/;
+
+        if (re.test(emailValue) && !hasSpace.test(emailValue)) {
+          email.setCustomValidity("");
+        } else {
+          email.setCustomValidity(
+            "이메일 형식이 올바르지 않거나 공백이 포함되어 있습니다."
+          );
+        }
+      }
+
+      email.addEventListener("input", validateEmail);
+    });
+
+    // 이메일 중복 검사(DB 조회)
+    document.addEventListener("DOMContentLoaded", function () {
+      const emailField = document.getElementById("email");
+      const emailStatus = document.getElementById("emailStatus");
+      emailField.addEventListener("blur", async function () {
+        const email = emailField.value;
+        const response = await fetch(`/users/check-email?email=${email}`);
+        const data = await response.json();
+        if (data.isDuplicate) {
+          emailStatus.textContent =
+            "이미 사용중인 이메일입니다. 다른 이메일을 입력해주세요.";
+          emailStatus.classList.add("email-duplicate"); // 클래스 추가
+          emailStatus.style.display = "block"; // 메시지를 보이게 함
+        } else {
+          emailStatus.textContent = "";
+          emailStatus.classList.remove("email-duplicate"); // 클래스 제거
+          emailStatus.style.display = "none"; // 메시지를 숨김
+        }
+      });
+    });
+
+    // 비밀번호 검증 (8자 이상, 대문자와 특수문자 각 1개 이상)
+    document.addEventListener("DOMContentLoaded", function () {
+      function validatePassword() {
+        let password = document.getElementById("password");
+        let reLength = /.{8,}/;
+        let reUpper = /[A-Z]/;
+        let reSpecial = /[!-/:-@[-`{-~]/;
+
+        let valid =
+          reLength.test(password.value) &&
+          reUpper.test(password.value) &&
+          reSpecial.test(password.value);
+
+        if (!valid) {
+          password.setCustomValidity(
+            "비밀번호는 최소 8자 이상이고, 대문자와 특수문자를 각각 1개 이상 포함해야 합니다."
+          );
+        } else {
+          password.setCustomValidity("");
+        }
+      }
+
+      document
+        .getElementById("password")
+        .addEventListener("input", validatePassword);
+    });
+
+    // 비밀번호 확인
+    document.addEventListener("DOMContentLoaded", function () {
+      let password = document.getElementById("password");
+      let confirm_password = document.getElementById("confirm_password");
+      function validatePassword() {
+        if (password.value !== confirm_password.value) {
+          confirm_password.setCustomValidity("비밀번호가 일치하지 않습니다.");
+        } else {
+          confirm_password.setCustomValidity("");
+        }
+      }
+
+      password.addEventListener("change", validatePassword);
+      confirm_password.addEventListener("keyup", validatePassword);
+    });
+
+    // 닉네임(username) 검증
+    document.addEventListener("DOMContentLoaded", () => {
+      function validateUsername() {
+        let username = document.getElementById("username");
+        let reSpecial = /[!-/:-@[-`{-~\s]/;
+
+        let valid = reSpecial.test(username.value);
+
+        if (valid) {
+          username.setCustomValidity(
+            "닉네임에는 공백이나 특수문자가 포함될 수 없습니다."
+          );
+        } else {
+          username.setCustomValidity("");
+        }
+      }
+
+      document
+        .getElementById("username")
+        .addEventListener("input", validateUsername);
+    });
+  </script>
 </html>

@@ -63,6 +63,16 @@ exports.getDelete = async (req, res) => {
   }
 };
 
+exports.checkEmail = async (req, res) => {
+  const email = req.query.email;
+  try {
+    const result = await userService.checkDuplicateEmail(email);
+    res.json({ isDuplicate: result });
+  } catch (error) {
+    console.log("Controller checkEmail Error : ", error.message);
+  }
+};
+
 exports.postLogin = async (req, res, next) => {
   try {
     const { user_email, user_password } = req.body;
@@ -88,8 +98,10 @@ exports.postLogin = async (req, res, next) => {
 
 exports.postRegist = async (req, res) => {
   try {
+    // console.log("Controller req.body : ", req.body);
+
     const registData = req.body;
-    userService.postRegist(registData);
+    await userService.postRegist(registData);
     res.render("user/user.regist.html", {
       SuccessMessage: `${registData.username}님 반갑습니다.회원가입에 성공하였습니다. 잠시 후 로그인 페이지로 이동합니다.`,
     });
@@ -103,8 +115,6 @@ exports.postModify = async (req, res) => {
     const userEmail = req.user.email;
     const modifyData = req.body;
     const { username } = req.body;
-    // console.log("Controller postModify req.user : ", req.user);
-    // console.log("Controller postModify req.body : ", req.body);
     await userService.postModify(userEmail, modifyData);
     res.render("user/user.modify.html", {
       SuccessMessage: `${username}님 회원정보 수정이 완료됐습니다. 잠시 후 메인 페이지로 이동합니다.`,

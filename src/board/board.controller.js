@@ -109,14 +109,17 @@ exports.getAnnouncementList = async () => {
 };
 
 exports.freeboardGetView = async (req, res, next) => {
-    try {
-        const [result] = await freeBoardService.getFindOne(req.query.id);
-        result.formattedDate = date.formatDate(result.created_at);
-        res.render("freeboard/view.html", result);
-        // console.log(result);
-    } catch (e) {
-        next(e);
-    }
+
+  try {
+    const [result] = await freeBoardService.getFindOne(req.query.id);
+    result.formattedDate = date.formatDate(result.created_at);
+    const comment = await freeBoardService.getFindComment(req.query.id);
+
+    res.render("freeboard/view.html", { result: result, comment: comment });
+  } catch (error) {
+    console.log("Controller freeboardGetView ERROR : ", error.message);
+    next(error);
+  }
 };
 
 exports.announcementGetView = async (req, res, next) => {
@@ -138,10 +141,48 @@ exports.announcementGetView = async (req, res, next) => {
 };
 
 exports.freeboardGetModify = async (req, res, next) => {
-    const [result] = await freeBoardService.getFindOneWithoutIncreamentHit(req.query.id);
-    result.formattedDate = date.formatDate(result.created_at);
+  try {
+    let level;
+    if (req.user && req.user.level) {
+      level = req.user.level;
+    } else {
+      level = 0;
+    }
 
-    res.render("freeboard/modify.html", result);
+    const [result] = await freeBoardService.getFindOneWithoutIncreamentHit(
+      req.query.id
+    );
+
+    if (req.user && result.email === req.user.email) {
+      // 로그인 하였고, 글 작성자 본인일 경우
+      result.formattedDate = date.formatDate(result.created_at);
+      res.render("freeboard/modify.html", result);
+      return;
+    } else if (req.user && level >= 2) {
+      // 관리자일 경우
+      result.formattedDate = date.formatDate(result.created_at);
+      res.render("freeboard/modify.html", result);
+      return;
+    } else if (req.user && result.email !== req.user.email) {
+      // 로그인 했지만, 글 작성자가 아닌 유저일 경우
+      return res.send(
+        `<script>alert("권한이 없습니다."); window.location.href="/boards/freeboard/list";</script>`
+      );
+    } else if (!req.user) {
+      // 로그인을 안 한 상태일 경우
+      return res.send(
+        `<script>alert("로그인이 필요합니다."); window.location.href="/users/login";</script>`
+      );
+    } else {
+      // 오류가 발생하였을 경우 최종 처리
+      return res.send(
+        `<script>alert("오류가 발생하였습니다."); window.location.href="/users/login";</script>`
+      );
+    }
+  } catch (error) {
+    console.log("Controller freeboardGetModify ERROR : ", error.message);
+    next(error);
+  }
 };
 
 exports.announcementGetModify = async (req, res, next) => {
@@ -163,13 +204,14 @@ exports.announcementGetModify = async (req, res, next) => {
 };
 
 exports.freeboardPostWrite = async (req, res, next) => {
-    try {
-        const result = await freeBoardService.write(req.body);
-        // console.log("게시글 작성 후 반환된 결과:", result);
-        res.redirect(`/boards/freeboard/view?id=${result.id}`);
-    } catch (e) {
-        next(e);
-    }
+
+  try {
+    const userEmail = req.user.email;
+    const result = await freeBoardService.write(req.body, userEmail);
+    res.redirect(`/boards/freeboard/view?id=${result.id}`);
+  } catch (e) {
+    next(e);
+  }
 };
 
 exports.announcementPostWrite = async (req, res, next) => {
@@ -188,13 +230,34 @@ exports.announcementPostWrite = async (req, res, next) => {
 };
 
 exports.freeboardPostModify = async (req, res, next) => {
-    try {
-        const id = req.body.id;
-        await freeBoardService.modify(id, req.body);
-        res.redirect(`/boards/freeboard/view?id=${id}`);
-    } catch (e) {
-        next(e);
+  try {
+    let level;
+    if (req.user && req.user.level) {
+      level = req.user.level;
+    } else {
+      level = 0;
     }
+    const id = req.body.id;
+    const [result] = await freeBoardService.getFindOneWithoutIncreamentHit(id);
+
+    if (req.user && result.email === req.user.email) {
+      // 로그인 하였고, 글 작성자 본인일 경우
+      await freeBoardService.modify(id, req.body);
+      res.redirect(`/boards/freeboard/view?id=${id}`);
+    } else if (req.user && level >= 2) {
+      // 관리자일 경우
+      await freeBoardService.modify(id, req.body);
+      res.redirect(`/boards/freeboard/view?id=${id}`);
+    } else {
+      // 그 외의 경우, 권한이 없는 경우
+      return res.send(
+        `<script>alert("권한이 없습니다."); window.location.href="/boards/freeboard/list";</script>`
+      );
+    }
+  } catch (error) {
+    console.log("Controller freeboardPostModify ERROR : ", error.message);
+    next(error);
+  }
 };
 
 exports.announcementPostModify = async (req, res, next) => {
@@ -238,3 +301,22 @@ exports.announcementPostDelete = async (req, res, next) => {
         next(e);
     }
 };
+
+exports.freeboardPostWriteComment = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.send(
+        `<script>alert("로그인이 필요합니다."); window.location.href="/users/login";</script>`
+      );
+    }
+    // console.log("Contoroller freeboardWriteComment Query : ", req.query.id);
+    // console.log("Contoroller freeboardWriteComment : ", req.user);
+    // console.log("Contoroller freeboardWriteComment : ", req.body);
+    await freeBoardService.writeComment(req.body, req.user, req.query.id);
+    res.redirect(`/boards/freeboard/view?id=${req.query.id}`);
+  } catch (error) {
+    console.log("Controller freeboardWriteComment ERROR : ", error.message);
+    next(error);
+  }
+};
+
