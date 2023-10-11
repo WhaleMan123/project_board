@@ -1,51 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{result.title}}</title>
-  </head>
-  <body>
-    <p>제목: {{result.title}}</p>
-    <p>생성날짜: {{result.formattedDate}}</p>
-    <p>글쓴이: {{result.writer}}</p>
-    <p>내용: {{result.content}}</p>
-    <p>조회 수 : {{result.hit}}</p>
-    <a href="/boards/freeboard/list">자유게시판 글 목록</a>
-    <a href="/boards/freeboard/modify?id={{result.id}}">글 수정</a>
-    <a href="/">홈으로</a>
-    <form
-      id="deleteForm"
-      method="post"
-      action="/boards/freeboard/delete?id={{result.id}}"
-    >
-      <button type="button" id="deleteButton">글 삭제</button>
-    </form>
-    <div class="comment-wrapper">
-      {% for data in comment %}
-      <table>
-        <td>{{data.writer}}</td>
-        <td>{{data.content}}</td>
-        <td>{{data.created_at}}</td>
-      </table>
-      {% endfor %}
-      <form
-        method="POST"
-        action="/boards/freeboard/writecomment?id={{result.id}}"
-      >
-        <input type="text" id="content" name="content" />
-        <input type="submit" value="댓글 작성" />
-      </form>
-    </div>
-  </body>
-  <script>
-    document.getElementById("deleteButton").addEventListener("click", () => {
-      const isConfirmed = window.confirm(
-        "정말로 이 글을 삭제하시겠습니까? 삭제된 게시글은 복구되지 않습니다."
-      );
-      if (isConfirmed) {
-        document.getElementById("deleteForm").submit();
-      }
-    });
-  </script>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- SEO (Search Engine Optimization) -->
+        <title>We Make Bull!</title>
+        <meta name="description" content="we make crypto bull" />
+        <meta name="author" content="Seon, Taehoon" />
+        <link rel="shortcut icon" href="../public/images/favicon.ico" type="image/x-icon" />
+        <!-- OG (Open Graph) -->
+        <meta property="og:title" content="션과 태훈의 포트폴리오" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="배포 후 생성된 URL" />
+        <meta property="og:image" content="배포 후 생성된 이미지 URL" />
+        <!-- Goggle Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Anton&family=Open+Sans:ital,wght@0,600;1,400&family=Outfit:wght@500&display=swap"
+            rel="stylesheet"
+        />
+        <!-- Font Awesome -->
+        <script src="https://kit.fontawesome.com/76b94c2aa9.js" crossorigin="anonymous"></script>
+        <!-- Typeit -->
+        <script src="https://unpkg.com/typeit@8.7.1/dist/index.umd.js"></script>
+        <!-- CSS -->
+        <link rel="stylesheet" href="/css/index.css" />
+        <!-- Javascript -->
+        <script type="module" src="/js/main.js" defer></script>
+        <script type="module" src="/js/projects.js" defer></script>
+        <script type="module" src="/js/active_menu.js" defer></script>
+        <script type="module" src="/js/type.js" defer></script>
+        <script type="module" src="/js/slide.js" defer></script>
+    </head>
+    <body>
+        <!-- Header -->
+        <header class="header">
+            <div class="header__logo">
+                <a href="#"> <img class="header__logo__img" src="/images/favicon.ico" alt="logo" /></a>
+            </div>
+
+            <nav class="header__nav">
+                <ul class="header__menu">
+                    <li><a class="header__menu__item active" href="#home">Home</a></li>
+                    <li><a class="header__menu__item" href="#about">About</a></li>
+                    <li><a class="header__menu__item" href="#branches">Branches</a></li>
+                    <li><a class="header__menu__item" href="#announcement">Announcement</a></li>
+                    <li><a class="header__menu__item" href="#freeboard">Freeboard</a></li>
+                    <li><a class="header__menu__item" href="#partners">Partners</a></li>
+                    <li><a class="header__menu__item" href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="header__toggle" aria-label="navigation menu toggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="login">
+                {% if user %}
+                <div class="button-container">
+                    <a class="loginbutton" href="/users/info">Myinfo</a>
+                    <a class="loginbutton" href="/users/logout">Logout</a>
+                </div>
+
+                <p><span class="username">{{user.username}},</span> Welcome here!</p>
+                {% else %}
+                <a class="loginbutton" href="/users/login">Login</a>
+
+                <!-- <button onclick="location.href='/users/login'" class="login-button">로그인</button> -->
+                {% endif %}
+            </div>
+        </header>
+        <main>
+            <section id="home">
+                <div class="max-container home__container">
+                    <img class="home__botimage" src="/images/tradingbot.png" alt="bot image" />
+                    <div class="home__textcontainer">
+                        <h2 class="home__title" aria-label="wemakebull">
+                            Cryptocurrency <br /><strong class="home__title--strong">Ultimate Bot</strong>
+                        </h2>
+                        <p class="home__description">for Next-Level, Real-Time Cryptocurrency Analytics and Insights</p>
+                        <a class="home__contact" href="#contact">Contact Us</a>
+                    </div>
+                </div>
+                <div class="home__divider">
+                    <svg
+                        data-name="Layer 1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 1200 120"
+                        preserveAspectRatio="none"
+                    >
+                        <path
+                            d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
+                            opacity=".25"
+                            class="shape-fill"
+                        ></path>
+                        <path
+                            d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z"
+                            opacity=".5"
+                            class="shape-fill"
+                        ></path>
+                        <path
+                            d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"
+                            class="shape-fill"
+                        ></path>
+                    </svg>
+                </div>
+            </section>
+            <section>
+                <p>제목: {{result.title}}</p>
+                <p>생성날짜: {{result.formattedDate}}</p>
+                <p>글쓴이: {{result.writer}}</p>
+                <p>내용: {{result.content}}</p>
+                <p>조회 수 : {{result.hit}}</p>
+                <a href="/boards/freeboard/list">자유게시판 글 목록</a>
+                <a href="/boards/freeboard/modify?id={{result.id}}">글 수정</a>
+                <a href="/">홈으로</a>
+                <form id="deleteForm" method="post" action="/boards/freeboard/delete?id={{result.id}}">
+                    <button type="button" id="deleteButton">글 삭제</button>
+                </form>
+                <div class="comment-wrapper">
+                    {% for data in comment %}
+                    <table>
+                        <td>{{data.writer}}</td>
+                        <td>{{data.content}}</td>
+                        <td>{{data.created_at}}</td>
+                    </table>
+                    {% endfor %}
+                    <form method="POST" action="/boards/freeboard/writecomment?id={{result.id}}">
+                        <input type="text" id="content" name="content" />
+                        <input type="submit" value="댓글 작성" />
+                    </form>
+                </div>
+            </section>
+        </main>
+        <footer id="contact" class="section">
+            <div class="contact__divider">
+                <svg
+                    data-name="Layer 1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 1200 120"
+                    preserveAspectRatio="none"
+                >
+                    <path d="M649.97 0L550.03 0 599.91 54.12 649.97 0z" class="shape-fill"></path>
+                </svg>
+            </div>
+            <div>
+                <h2 class="contact__title">Let&#39;s make a bull with us!</h2>
+                <ul class="contact__links">
+                    <li class="contact__links__li">
+                        <a
+                            class="contact__link"
+                            href="https://github.com/WhaleMan123"
+                            target="_blank"
+                            title="taehoon github link"
+                        >
+                            <span>Taehoon (Back-end)</span>
+                            <i class="fa-brands fa-github"></i>
+                        </a>
+                    </li>
+                    <li class="contact__links__li">
+                        <a
+                            class="contact__link"
+                            href="https://github.com/applemangopen/blockchain10"
+                            target="_blank"
+                            title="seon github link"
+                        >
+                            <span>Seon (Front-end)</span>
+                            <i class="fa-brands fa-github"></i>
+                        </a>
+                    </li>
+                </ul>
+                <p class="contact__link--rights">Taehoon&Seon - All rights reserved</p>
+            </div>
+        </footer>
+    </body>
+    <script>
+        document.getElementById("deleteButton").addEventListener("click", () => {
+            const isConfirmed = window.confirm("정말로 이 글을 삭제하시겠습니까? 삭제된 게시글은 복구되지 않습니다.");
+            if (isConfirmed) {
+                document.getElementById("deleteForm").submit();
+            }
+        });
+    </script>
 </html>
