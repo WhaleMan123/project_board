@@ -15,21 +15,23 @@ const boardController = require("./board/board.controller");
 // });
 
 router.get("/", async (req, res) => {
-    try {
-        const [freeBoardList, announcementList] = await Promise.all([
-            boardController.getFreeBoardList(),
-            boardController.getAnnouncementList(),
-        ]);
+  try {
+    const [freeBoardList, announcementList] = await Promise.all([
+      boardController.getFreeBoardList(),
+      boardController.getAnnouncementList(),
+    ]);
 
-        res.render("index.html", {
-            user: req.user,
-            freeList: freeBoardList,
-            announcementList: announcementList,
-        });
-    } catch (e) {
-        console.error(e);
-        res.status(500).send("index.js에서 데이터를 받아오는 데 에러가 발생했습니다.");
-    }
+    res.render("index.html", {
+      user: req.user,
+      freeList: freeBoardList,
+      announcementList: announcementList,
+    });
+  } catch (e) {
+    console.error(e);
+    res
+      .status(500)
+      .send("index.js에서 데이터를 받아오는 데 에러가 발생했습니다.");
+  }
 });
 
 router.use("/boards", boardRouter);
