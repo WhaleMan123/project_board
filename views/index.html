@@ -44,7 +44,7 @@
     <!-- Header -->
     <header class="header">
       <div class="header__logo">
-        <a href="#">
+        <a href="http://localhost:7700/">
           <img class="header__logo__img" src="/images/favicon.ico" alt="logo"
         /></a>
       </div>
@@ -79,86 +79,9 @@
         {% endif %}
       </div>
     </header>
-    <main>
-      <!-- Home -->
-      <section id="home">
-        <div class="max-container home__container">
-          <img
-            class="home__botimage"
-            src="/images/tradingbot.png"
-            alt="bot image"
-          />
-          <div class="home__textcontainer">
-            <h2 class="home__title" aria-label="wemakebull">
-              Cryptocurrency <br /><strong class="home__title--strong"
-                >Ultimate Bot</strong
-              >
-            </h2>
-            <p class="home__description">
-              for Next-Level, Real-Time Cryptocurrency Analytics and Insights
-            </p>
-            <a class="home__contact" href="#contact">Contact Us</a>
-          </div>
-        </div>
-        <div class="home__divider">
-          <svg
-            data-name="Layer 1"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 1200 120"
-            preserveAspectRatio="none"
-          >
-            <path
-              d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
-              opacity=".25"
-              class="shape-fill"
-            ></path>
-            <path
-              d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z"
-              opacity=".5"
-              class="shape-fill"
-            ></path>
-            <path
-              d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"
-              class="shape-fill"
-            ></path>
-          </svg>
-        </div>
-      </section>
-      <!-- About -->
-      <section id="about" class="section max-container">
-        <h2 class="title">Our Features</h2>
-        <p class="description" style="margin-bottom: 3rem">
-          Simple Bot with Advanced Tools
-        </p>
-        <p class="description2">
-          WeMakeBull was founded in 2023. Initially, the focus was solely on
-          monitoring wallets within the Ethereum network. <br />
-          <br />
-          However, as we continued our phased development, it became evident how
-          vital this bot is to the crypto community. <br />
-          <br />
-          What truly sets it apart and adds the most value for our users are its
-          unique features. <br />
-          <br />
-          So what are these standout features?
-        </p>
-        <ul class="abouts">
-          <li class="about">
-            <img src="/images/product1.png" alt="product1" class="about__img" />
-            <div class="about__bubble">
-              <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Animi,
-                laboriosam. Pariatur dolore rem cupiditate, velit similique nam
-                asperiores dignissimos facere aspernatur minima autem eius
-                explicabo, repellat hic vero impedit quas!
-              </p>
-              <p>
-                <a class="about__bubble__name" href="#">James Kim</a> / Google
-              </p>
-            </div>
 
-        </header>
-        <main>
+
+    <main>
             <!-- Home -->
             <section id="home">
                 <div class="max-container home__container">
@@ -357,138 +280,6 @@
           </div>
         </div>
       </section>
-      <!-- Announcement -->
-      <section id="announcement">
-        <h2 class="title">Announcement</h2>
-        <p class="description tablespace">Check out important news!</p>
-        <table class="announcement__table">
-          <tr>
-            <th class="tableno">NO</th>
-            <th class="tabletitle">Title</th>
-            <th class="tablenickname">Nickname</th>
-            <th class="tabledate">Date</th>
-            <th class="tablehit">hit</th>
-          </tr>
-          {% for data in announcementList %}
-          <tr>
-            <td>{{data.id}}</td>
-            <td>
-              <a
-                class="board__title"
-                href="/boards/announcement/view?id={{data.id}}"
-                >{{data.title}}</a
-              >
-            </td>
-            <td>{{data.writer}}</td>
-            <td>{{data.formattedDate}}</td>
-            <td>{{data.hit}}</td>
-          </tr>
-          {% endfor %}
-        </table>
-        {% if user.level >= 2 %}
-        <a class="writebutton1" href="/boards/announcement/write"
-          >Write Announcement</a
-        >
-        {% endif %}
-      </section>
-      <!-- Freeboard -->
-      <section id="freeboard">
-        <h2 class="title">Open Forum</h2>
-        <p class="description tablespace openforum">
-          Feel free to share information about crypto trading!
-        </p>
-        <table>
-          <tr>
-            <th class="tableno">NO</th>
-            <th class="tabletitle">Title</th>
-            <th class="tablenickname">Nickname</th>
-            <th class="tabledate">Date</th>
-            <th class="tablehit">hit</th>
-          </tr>
-          {% for data in freeList %}
-          <tr>
-            <td>{{data.id}}</td>
-            <td>
-              <a
-                class="board__title"
-                href="/boards/freeboard/view?id={{data.id}}"
-                >{{data.title}}</a
-              >
-            </td>
-            <td>{{data.writer}}</td>
-            <td>{{data.formattedDate}}</td>
-            <td>{{data.hit}}</td>
-          </tr>
-          {% endfor %}
-        </table>
-        <a class="writebutton2" href="/boards/freeboard/write">Write</a>
-      </section>
-      <!-- Skills -->
-      <section id="skills" class="section">
-        <div class="max-container">
-          <h2 class="title">My Skills</h2>
-          <p class="description">Skills & Attributes</p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. At omnis
-            atque, inventore rem maxime est quas vero nam, ducimus consequatur
-            tempora, ipsum perspiciatis sit reiciendis facilis eius mollitia
-            doloribus possimus.
-          </p>
-          <div class="skills">
-            <section class="skills__coding">
-              <h3 class="skills__title">Coding Skills</h3>
-              <ul>
-                <li class="bar">
-                  <div class="bar__metadata">
-                    <span>HTML</span><span>98%</span>
-                  </div>
-                  <div class="bar__bg">
-                    <div class="bar__value" style="width: 98%"></div>
-                  </div>
-                </li>
-                <li class="bar">
-                  <div class="bar__metadata">
-                    <span>CSS</span><span>90%</span>
-                  </div>
-                  <div class="bar__bg">
-                    <div class="bar__value" style="width: 90%"></div>
-                  </div>
-                </li>
-                <li class="bar">
-                  <div class="bar__metadata">
-                    <span>JS</span><span>90%</span>
-                  </div>
-                  <div class="bar__bg">
-                    <div class="bar__value" style="width: 90%"></div>
-                  </div>
-                </li>
-                <li class="bar">
-                  <div class="bar__metadata">
-                    <span>TS</span><span>80%</span>
-                  </div>
-                  <div class="bar__bg">
-                    <div class="bar__value" style="width: 80%"></div>
-                  </div>
-                </li>
-                <li class="bar">
-                  <div class="bar__metadata">
-                    <span>React</span><span>79%</span>
-                  </div>
-                  <div class="bar__bg">
-                    <div class="bar__value" style="width: 79%"></div>
-                  </div>
-                </li>
-                <li class="bar">
-                  <div class="bar__metadata">
-                    <span>NodeJS</span><span>68%</span>
-                  </div>
-                  <div class="bar__bg">
-                    <div class="bar__value" style="width: 68%"></div>
-                  </div>
-                </li>
-              </ul>
-            </section>
-
             <!-- Announcement -->
             <section id="announcement">
                 <h2 class="title">Announcement</h2>
@@ -513,7 +304,11 @@
                     </tr>
                     {% endfor %}
                 </table>
-                <a class="writebutton1" href="/boards/announcement/write">Write Announcement</a>
+                {% if user.level >= 2 %}
+                <a class="writebutton1" href="/boards/announcement/write"
+                  >Write Announcement</a
+                >
+                {% endif %}
             </section>
             <!-- Freeboard -->
             <section id="freeboard">
@@ -624,100 +419,6 @@
                     </ul>
 
                 </div>
-              </a>
-            </li>
-            <li class="project" data-type="front-end">
-              <a href="#" target="_blank"
-                ><img
-                  src="./images/projects/project2.webp"
-                  alt="project2"
-                  class="project__img"
-                />
-                <div class="project__metadata">
-                  <h3 class="project__title">Project #2</h3>
-                  <p>Clone Coding with HTML, CSS</p>
-                </div></a
-              >
-            </li>
-            <li class="project" data-type="back-end">
-              <a href="#" target="_blank">
-                <img
-                  src="./images/projects/project3.webp"
-                  alt="project3"
-                  class="project__img"
-                />
-                <div class="project__metadata">
-                  <h3 class="project__title">Project #3</h3>
-                  <p>Clone Coding with HTML, CSS</p>
-                </div>
-              </a>
-            </li>
-            <li class="project" data-type="mobile">
-              <a href="#" target="_blank"
-                ><img
-                  src="./images/projects/project4.webp"
-                  alt="project4"
-                  class="project__img"
-                />
-                <div class="project__metadata">
-                  <h3 class="project__title">Project #4</h3>
-                  <p>Clone Coding with HTML, CSS</p>
-                </div></a
-              >
-            </li>
-            <li class="project" data-type="front-end">
-              <a href="#" target="_blank"
-                ><img
-                  src="./images/projects/project5.webp"
-                  alt="project5"
-                  class="project__img"
-                />
-                <div class="project__metadata">
-                  <h3 class="project__title">Project #5</h3>
-                  <p>Clone Coding with HTML, CSS</p>
-                </div></a
-              >
-            </li>
-            <li class="project" data-type="back-end">
-              <a href="#" target="_blank"
-                ><img
-                  src="./images/projects/project6.webp"
-                  alt="project6"
-                  class="project__img"
-                />
-                <div class="project__metadata">
-                  <h3 class="project__title">Project #6</h3>
-                  <p>Clone Coding with HTML, CSS</p>
-                </div></a
-              >
-            </li>
-            <li class="project" data-type="mobile">
-              <a href="#" target="_blank"
-                ><img
-                  src="./images/projects/project7.webp"
-                  alt="project7"
-                  class="project__img"
-                />
-                <div class="project__metadata">
-                  <h3 class="project__title">Project #7</h3>
-                  <p>Clone Coding with HTML, CSS</p>
-                </div></a
-              >
-            </li>
-            <li class="project" data-type="front-end">
-              <a href="#" target="_blank"
-                ><img
-                  src="./images/projects/project8.webp"
-                  alt="project8"
-                  class="project__img"
-                />
-                <div class="project__metadata">
-                  <h3 class="project__title">Project #8</h3>
-                  <p>Clone Coding with HTML, CSS</p>
-                </div></a
-              >
-            </li>
-          </ul>
         </div>
       </section>
 

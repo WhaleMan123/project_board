@@ -89,6 +89,10 @@ button:focus {
     margin: auto;
 }
 
+i:hover {
+    transform: rotate(-5deg) scale(1.8);
+}
+
 /* Header */
 .header {
     background-color: transparent;
