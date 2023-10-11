@@ -44,8 +44,9 @@ exports.freeboardGetList = async (req, res, next) => {
         });
 
         res.render("freeboard/list.html", { list: formattedResults, user: user });
-    } catch (e) {
-        next(e);
+    } catch (error) {
+        console.log("Controller freeboardGetList ERROR : ", error.message);
+        next(error);
     }
 };
 
@@ -91,6 +92,20 @@ exports.announcementGetList = async (req, res, next) => {
         console.log("Controller announcementGetList ERROR : ", error.message);
         next(error);
     }
+};
+
+exports.getAnnouncementList = async () => {
+    let list = [];
+    try {
+        const result = await announcementBoardService.getFindAll();
+        list = result.map((item) => {
+            item.formattedDate = date.formatDate(item.created_at);
+            return item;
+        });
+    } catch (e) {
+        console.error(e);
+    }
+    return list;
 };
 
 exports.freeboardGetView = async (req, res, next) => {
