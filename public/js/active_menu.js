@@ -5,7 +5,7 @@
 // 보여지는 섹션:
 // - 다수의 섹션이 동시에 보여진다면, 가장 첫번째 섹션을 선택
 // - 마지막 contact 섹션이 보여진다면, 그러면 가장 마지막 섹션을 선택
-const sectionIds = ["#home", "#about", "#branches", "#skills", "#work", "#contact"];
+const sectionIds = ["#home", "#about", "#branches", "#partners", "#annoucement", "#freeboard", "#contact"];
 const sections = sectionIds.map((id) => document.querySelector(id));
 const navItems = sectionIds.map((id) => document.querySelector(`[href="${id}"]`));
 
